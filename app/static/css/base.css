@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap");
+@import url('https://cdn-uicons.flaticon.com/2.0.0/uicons-solid-straight/css/uicons-solid-straight.css');
+@import url('https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-straight/css/uicons-regular-straight.css');
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+:root {
+  --dark-bg: #004038;
+  --main-bg: #00C059ee;
+  --light-bg: #F1F1EF;
+  --white: #fff;
+  --dark-text: #004038;
+  --main-text: #00C059ee;
+  --main-font: "Inter", sans-serif;
+}
+body {
+  font-family: var(--main-font);
+  color: var(--dark-text);
+}
+h1 {
+  font-size: 32px;
+  font-weight: 500;
+}
+h2 {
+  font-size: 28px;
+  font-weight: 500;
+}
+h3 {
+  font-size: 24px;
+  font-weight: 500;
+}
+.title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.text {
+  font-size: 16px;
+  font-weight: 500;
+}
+.small-text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+a {
+  color: var(--dark-bg);
+}
+
+a:hover {
+  /*color: var(--main-bg);*/
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  border: none;
+  outline: none !important;
+  cursor: pointer;
+}
+
+button.btn {
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-family: var(--main-font);
+}
+
+button.btn.primary {
+  background-color: var(--dark-bg);
+  color: var(--white);
+  padding: 12px 30px;
+}
+
+
+input {
+    padding: 12px 24px;
+    font-family: var(--main-font);
+    color: var(--dark-text);
+}
+
+.dropdown {
+  position: relative;
+  width: 240px;
+}
+.dropdown-select {
+  padding: 12px 24px;
+  color: var(--dark-text);
+  border: 1px solid var(--dark-bg);
+  background-color: var(--white);
+  display: flex;
+}
+
+.dropdown-select span {
+  flex: 1;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  border: 1px solid var(--dark-bg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-50px);
+}
+
+.dropdown-item {
+  padding: 12px 24px;
+  background-color: var(--white);
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: var(--light-bg);
+}
+
+.dropdown.open .dropdown-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0px);
+}
