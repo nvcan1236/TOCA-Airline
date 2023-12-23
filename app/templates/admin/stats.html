@@ -1,0 +1,57 @@
+{% extends 'admin/base-admin.html' %}
+
+{% block content %}
+<div  class="stats">
+  <div class="stats-type">
+    <h3>BÁO CÁO THỐNG KÊ </h3>
+<div class="dropdown" id="from-location">
+      <div class="dropdown-select">
+          <span class="dropdown-value">Theo tuyến bay</span>
+          <i class="fi fi-rs-angle-down"></i>
+      </div>
+      <div class="dropdown-list">
+      <div class="dropdown-item">Theo tuyến bay</div>
+      <div class="dropdown-item">Theo quý</div>
+    </div>
+  </div>
+  </div>
+  <div class="stats-filter">
+    <div class="from form-group">
+      <label for="from-data">Xem kết quả từ</label>
+      <input type="date" name="" id="from-data">
+    </div>
+    <div class="to form-group">
+      <span>Đến</span>
+      <div class="chose-date">
+        <div>
+            <input type="radio" name="to" id="current" checked>
+            <label for="current">Hiện tại</label>
+        </div>
+        <div >
+            <input type="radio" name="to" id="to-date">
+        <label for="to-date">
+            <input type="date" name="">
+        </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn primary show-btn">Xem kết quả</button>
+
+<div class="chart">
+  <canvas id="myChart" ></canvas>
+</div>
+  
+  <div class="switch-chart">
+    <div>
+      <input type="radio" name="chart-form" id="chart" checked>
+    <label for="chart">Biểu đồ</label>
+    </div>
+    <div>
+      <input type="radio" name="chart-form" id="table">
+    <label for="table">Bảng</label>
+    </div>
+  </div>
+</div>
+{% endblock %}

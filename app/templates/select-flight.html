@@ -1,0 +1,167 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<div>
+    <section class="main">
+        <div class="search-flight">
+                <div class="search">
+                    <div class="location">
+                        <label for="from-location">Địa điểm</label>
+                        <div class="input-wrapper">
+
+                            <div class="dropdown" id="from-location">
+                              <div class="dropdown-select">
+                                <span class="dropdown-value">From</span>
+                                  <i class="fi fi-rs-angle-down"></i>
+                              </div>
+                              <div class="dropdown-list">
+                                <div class="dropdown-item">TP. Hồ Chí Minh</div>
+                                <div class="dropdown-item">Hà Nội</div>
+                                <div class="dropdown-item">Đà Nẵng</div>
+                              </div>
+                            </div>
+
+                            <i class="fi fi-ss-plane"></i>
+
+                            <div class="dropdown" id="to-location">
+                              <div class="dropdown-select">
+                                <span class="dropdown-value">To</span>
+                                  <i class="fi fi-rs-angle-down"></i>
+                              </div>
+                              <div class="dropdown-list">
+                                <div class="dropdown-item">TP. Hồ Chí Minh</div>
+                                <div class="dropdown-item">Hà Nội</div>
+                                <div class="dropdown-item">Đà Nẵng</div>
+                              </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="time">
+                        <label for="date-input">Ngày đi</label>
+                        <div>
+                            <input type="date" id="date-input">
+                        </div>
+                    </div>
+
+                </div>
+        </div>
+
+       <div class="select-flight">
+            <ul class="flight-list">
+                <li class="flight-item">
+                    <div class="brief-info">
+                        <span>05:00 đến 12:00</span>
+                        <span>Airbus A320</span>
+                    </div>
+                    <div class="luxury class ">
+                        1.200.000 VND
+                    </div>
+                    <div class="classic class chosen" >
+                        980.000 VND
+                    </div>
+                </li>
+                 <li class="flight-item">
+                    <div class="brief-info">
+                        <span>05:00 đến 12:00</span>
+                        <span>Airbus A320</span>
+                    </div>
+                    <div class="luxury class">
+                        1.200.000 VND
+                    </div>
+                    <div class="classic class">
+                        980.000 VND
+                    </div>
+                </li>
+                 <li class="flight-item">
+                    <div class="brief-info">
+                        <span>05:00 đến 12:00</span>
+                        <span>Airbus A320</span>
+                    </div>
+                    <div class="luxury class">
+                        1.200.000 VND
+                    </div>
+                    <div class="classic class">
+                        980.000 VND
+                    </div>
+                </li>
+                 <li class="flight-item">
+                    <div class="brief-info">
+                        <span>05:00 đến 12:00</span>
+                        <span>Airbus A320</span>
+                    </div>
+                    <div class="luxury class chosen">
+                        1.200.000 VND
+                    </div>
+                    <div class="classic class">
+                        980.000 VND
+                    </div>
+                </li>
+            </ul>
+
+            <div class="flight-detail">
+                <div class="station">
+                    <h3>Lộ trình</h3>
+                    <div class="path">
+                        <div class="from">
+                            <div class="code">SGN</div>
+                            <div class="name">Tp. Hồ Chí Minh</div>
+                            <div class="time">05:00 22/12/2023</div>
+                        </div>
+
+                        <div class="between">
+                            <span>7 giờ</span>
+                            <span>
+                                <i class="fi fi-ss-plane"></i>
+                            </span>
+                            <span>2 trạm</span>
+                        </div>
+
+                        <div class="to">
+                            <div class="code">HNN</div>
+                            <div class="name">Hà Nội</div>
+                            <div class="time">12:00 22/12/2023</div>
+                        </div>
+                    </div>
+<!--                    Danh sách trạm dừng chân nếu có-->
+
+                    <div class="termination">
+                        <h3>Danh sách trạm dừng</h3>
+                        <ul>
+                            <li>1. <span class="code">DNN </span>- Đà Nẵng</li>
+                            <li>2. <span class="code">HPN </span>- Hải Phòng</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="benefit">
+                    <h3>Quyền lợi</h3>
+                    <ul>
+                        <li>Hành lý xách tay: 07Kg.</li>
+                        <li>Bảo hiểm Sky Care</li>
+                    </ul>
+                </div>
+                <div class="price">
+                    <h3>Chi phí</h3>
+                    <div class="price-item">
+                        Giá vé: <span>1200.000 VND</span>
+                    </div>
+                    <div class="price-item">
+                        Thuế: <span>120.000 VND</span>
+                    </div>
+                    <div class="price-item total">
+                        Tổng: <span>1320.000 VND</span>
+                    </div>
+                </div>
+            </div>
+       </div>
+
+        <div class="page-nav">
+            <button class="btn">Quay lại</button>
+            <button class="btn primary">Tiếp</button>
+        </div>
+
+
+    </section>
+</div>
+
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

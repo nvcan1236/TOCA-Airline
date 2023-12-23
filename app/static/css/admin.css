@@ -1,0 +1,262 @@
+.sale-ticket input {
+    padding: 8px 16px;
+}
+.search-flight {
+    margin-top: 60px;
+    background-color: var(--light-bg);
+    padding: 40px 60px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+}
+
+.search-flight .search {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 20px;
+}
+
+.search-flight .search label {
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.search-flight .location .input-wrapper {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+
+.search-flight .location i {
+    color: var(--main-text);
+    font-size: 24px;
+    height: 20px;
+}
+
+.search-flight .time input {
+    width: 240px;
+}
+
+/*select flight*/
+
+.select-flight {
+    margin-top: 60px;
+}
+.flight-list {
+    margin-top: 24px;
+}
+
+.flight-item .brief-info {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--dark-text);
+    border-radius: 4px;
+    height: 68px;
+}
+
+.flight-item {
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flight-item + .flight-item {
+    margin-top: 12px;
+}
+
+.flight-item .class.chosen {
+    border: 2px solid currentColor;
+    box-shadow: 0 0 10px 2px currentColor;
+}
+
+.flight-item .class {
+    width: calc(50% - 100px);
+    height: 68px;
+    font-weight: 700;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    position: relative;
+    cursor: pointer;
+}
+
+.flight-item .luxury {
+    background-color: var(--gold-bg);
+    color: var(--gold-text);
+}
+
+.flight-item .classic {
+    background-color: var(--main-bg);
+    color: var(--dark-text);
+}
+
+.flight-item .class::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 18px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px 0 4px 0;
+}
+
+.flight-item .luxury::before {
+    content: 'Luxury';
+    color: var(--white);
+    background-color: var(--gold-text);
+}
+
+.flight-item .classic::before {
+    content: 'Classic';
+    color: var(--white);
+    background-color: var(--dark-bg);
+}
+
+/*passenger form*/
+ .passenger-info {
+     margin-top: 60px;
+ }
+.passenger-info form {
+    margin-top: 16px;
+    padding: 40px 120px;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+    background-color: var(--light-bg);
+}
+
+.personal {
+    padding: 12px 0 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.personal>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact {
+    padding: 12px 0;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.personal h3,
+.contact h3 {
+    margin-top: 16px;
+    font-size: 18px;
+}
+
+#nationality {
+    width: 100%;
+}
+
+.passenger-info .type,
+.passenger-info .gender {
+    width: 40%;
+    display: flex;
+    gap: 12px;
+}
+
+.contact>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+footer {
+    padding: 20px 40px;
+    background-color: var(--dark-bg);
+    color: var(--white);
+    margin-top: 40px;
+    font-size: 14px;
+}
+
+
+/*chart*/
+.chart {
+    max-width: 600px ;
+    margin-inline: auto;
+    margin-top: 20px;
+}
+
+.stats .show-btn{
+    display: block;
+    margin-inline: auto;
+}
+
+.stats-type {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    margin-top: 40px;
+}
+
+
+
+.stats-filter {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats-filter .to .chose-date {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    align-items: center;
+}
+
+.stats-filter input[type='radio'] {
+    margin-right: 4px;
+}
+
+#to-date + label {
+    pointer-events: none;
+    opacity: 0.6;
+}
+#to-date:checked + label {
+    pointer-events: auto;
+    opacity: 1;
+}
+.switch-chart {
+    background-color: var(--light-bg);
+    width: 340px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-inline: auto;
+    margin-top: 20px;
+}
+
+.switch-chart input {
+    visibility: hidden;
+    width: 1px;
+    height: 1px;
+}
+
+.switch-chart label {
+    width: 150px ;
+    padding: 6px 12px;
+    text-align: center;
+    margin: 0;
+    transition: all 0.3s ease;
+}
+
+.switch-chart input:checked + label {
+    background-color: var(--dark-bg);
+    color: var(--white);
+}

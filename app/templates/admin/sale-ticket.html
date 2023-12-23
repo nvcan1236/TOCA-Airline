@@ -1,0 +1,195 @@
+{% extends 'admin/base-admin.html' %}
+
+{% block content %}
+<div class="sale-ticket">
+
+<div class="search-flight">
+    <div class="search">
+        <div class="location">
+            <label for="from-location">Địa điểm</label>
+            <div class="input-wrapper">
+                <div class="dropdown" id="from-location">
+                    <div class="dropdown-select">
+                        <span class="dropdown-value">From</span>
+                        <i class="fi fi-rs-angle-down"></i>
+                    </div>
+                    <div class="dropdown-list">
+                    <div class="dropdown-item">TP. Hồ Chí Minh</div>
+                    <div class="dropdown-item">Hà Nội</div>
+                    <div class="dropdown-item">Đà Nẵng</div>
+                  </div>
+                </div>
+
+                <i class="fi fi-ss-plane"></i>
+
+                <div class="dropdown" id="to-location">
+                  <div class="dropdown-select">
+                    <span class="dropdown-value">To</span>
+                      <i class="fi fi-rs-angle-down"></i>
+                  </div>
+                  <div class="dropdown-list">
+                    <div class="dropdown-item">TP. Hồ Chí Minh</div>
+                    <div class="dropdown-item">Hà Nội</div>
+                    <div class="dropdown-item">Đà Nẵng</div>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="time">
+            <label for="date-input">Ngày đi</label>
+            <div>
+                <input type="date" id="date-input">
+            </div>
+        </div>
+
+        <button class="btn primary">TÌM KIẾM</button>
+
+    </div>
+</div>
+
+<div class="select-flight">
+    <h3>Kết quả tìm kiếm chuyến bay</h3>
+    <ul class="flight-list">
+                        <li class="flight-item">
+                            <div class="brief-info">
+                                <span>05:00 đến 12:00</span>
+                                <span>Airbus A320</span>
+                            </div>
+                            <div class="luxury class ">
+                                1.200.000 VND
+                            </div>
+                            <div class="classic class chosen" >
+                                980.000 VND
+                            </div>
+                        </li>
+                        <li class="flight-item">
+                            <div class="brief-info">
+                                <span>05:00 đến 12:00</span>
+                                <span>Airbus A320</span>
+                            </div>
+                            <div class="luxury class">
+                                1.200.000 VND
+                            </div>
+                            <div class="classic class">
+                                980.000 VND
+                            </div>
+                        </li>
+                        <li class="flight-item">
+                            <div class="brief-info">
+                                <span>05:00 đến 12:00</span>
+                                <span>Airbus A320</span>
+                            </div>
+                            <div class="luxury class">
+                                1.200.000 VND
+                            </div>
+                            <div class="classic class">
+                                980.000 VND
+                            </div>
+                        </li>
+                        <li class="flight-item">
+                            <div class="brief-info">
+                                <span>05:00 đến 12:00</span>
+                                <span>Airbus A320</span>
+                            </div>
+                            <div class="luxury class chosen">
+                                1.200.000 VND
+                            </div>
+                            <div class="classic class">
+                                980.000 VND
+                            </div>
+                        </li>
+
+
+                    </ul>
+</div>
+
+<div class="passenger-info">
+           <h3>Thông tin khách hàng</h3>
+           <form action="">
+               <div class="personal">
+                   <h3>Thông tin cá nhân</h3>
+                   <div>
+                       <div class="type">
+                            <div>
+                                <input type="radio" name="adult" id="adult" checked>
+                            <label for="adult">Người lớn</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="adult" id="child">
+                                <label for="child">Trẻ em</label>
+                            </div>
+                       </div>
+
+                        <div class="gender">
+                            <span>Giới tính: </span>
+                           <div>
+                               <input type="radio" name="gender" id="male" checked>
+                            <label for="male">Nam</label>
+                           </div>
+                           <div>
+                               <input type="radio" name="gender" id="female">
+                            <label for="female">Nữ</label>
+                           </div>
+                            <div>
+                                <input type="radio" name="gender" id="others">
+                            <label for="others">Khác</label>
+                            </div>
+                       </div>
+                   </div>
+
+                   <div>
+                       <div class="form-group half">
+                           <label for="last-name">Họ</label>
+                            <input type="text" name="" id="last-name" placeholder="VD: Nguyen">
+                       </div>
+                       <div class="form-group half">
+                           <label for="first-name">Tên</label>
+                       <input type="text" name="" id="first-name" placeholder="VD: Toan">
+                       </div>
+                   </div>
+
+                   <div>
+                       <div class="form-group half">
+                            <label for="date-of-birth">Ngày sinh</label>
+                            <input type="date" name="" id="date-of-birth">
+                       </div>
+                       <div class="form-group half">
+                           <label for="nationality">Quốc tịch</label>
+                       <div class="dropdown" id="nationality">
+                          <div class="dropdown-select">
+                            <span class="dropdown-value">Chọn quốc tịch</span>
+                              <i class="fi fi-rs-angle-down"></i>
+                          </div>
+                          <div class="dropdown-list">
+                            <div class="dropdown-item">Việt Nam</div>
+                            <div class="dropdown-item">Mỹ</div>
+                            <div class="dropdown-item">Anh</div>
+                          </div>
+                        </div>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="contact">
+                   <h3>Thông tin liên lạc</h3>
+                   <div class="">
+                       <div class="form-group half">
+                           <label for="phone">Số điện thoại</label>
+                       <input type="tel" id="phone" placeholder="xxxx-xxx-xxx">
+                       </div>
+                       <div class="form-group half">
+                           <label for="email">Email</label>
+                       <input type="email" id="email" placeholder="example@gmail.com">
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="address">Địa chỉ</label>
+                       <input type="text" id="address" placeholder="1454 Le Van Luong, Nha Be, Ho Chi Minh">
+                   </div>
+               </div>
+           </form>
+       </div>
+</div>
+
+{% endblock %}

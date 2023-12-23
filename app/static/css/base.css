@@ -11,6 +11,8 @@
   --main-bg: #00C059ee;
   --light-bg: #F1F1EF;
   --white: #fff;
+  --gold-text: #a67c00;
+  --gold-bg: #ffdc73;
   --dark-text: #004038;
   --main-text: #00C059ee;
   --main-font: "Inter", sans-serif;
@@ -68,6 +70,7 @@ button.btn {
   padding: 12px 24px;
   border-radius: 4px;
   font-family: var(--main-font);
+  font-size: 14px;
 }
 
 button.btn.primary {
@@ -78,14 +81,26 @@ button.btn.primary {
 
 
 input {
-    padding: 12px 24px;
+    padding: 8px 20px;
     font-family: var(--main-font);
     color: var(--dark-text);
 }
 
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.half {
+  width: 40%;
+}
+
+
 .dropdown {
   position: relative;
   width: 240px;
+  font-size: 14px;
+  line-height: 1;
 }
 .dropdown-select {
   padding: 12px 24px;
@@ -93,10 +108,13 @@ input {
   border: 1px solid var(--dark-bg);
   background-color: var(--white);
   display: flex;
+  align-items: center;
+  pointer-events: none;
 }
 
 .dropdown-select span {
   flex: 1;
+  pointer-events: none;
 }
 
 .dropdown-list {
