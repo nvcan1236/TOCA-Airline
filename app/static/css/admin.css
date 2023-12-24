@@ -260,3 +260,69 @@ footer {
     background-color: var(--dark-bg);
     color: var(--white);
 }
+
+/*change regulation*/
+.change-regulation {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 40px;
+}
+
+.change-regulation input {
+    margin-right: 8px;
+    padding: 6px 12px;
+}
+.change-regulation input+span {
+    width: 40px;
+    display: inline-block;
+    /*text-align: right;*/
+}
+
+.change-regulation label {
+    margin: 0;
+}
+
+.change-regulation h3 {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.regulation-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 100px;
+    margin-top: 20px;
+}
+
+.airport-reg .regulation-item,
+.time-reg .regulation-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ticket-reg .regulation-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ticket-reg .ticket-type {
+    padding-left: 60px;
+}
+
+.ticket-reg .ticket-type>div{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+}
+
+.airport-reg input,
+.time-reg input,
+.ticket-type.quantity input
+{
+    width: 100px;
+}
+
+/*schedule*/

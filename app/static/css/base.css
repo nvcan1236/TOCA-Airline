@@ -78,6 +78,11 @@ button.btn.primary {
   color: var(--white);
   padding: 12px 30px;
 }
+button.btn.secondary {
+  background-color: var(--light-bg);
+  color: var(--dark-text);
+  border: 1px solid var(--dark-bg)
+}
 
 
 input {
@@ -144,3 +149,49 @@ input {
   visibility: visible;
   transform: translateY(0px);
 }
+
+/* flight map*/
+.flight-map {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.seat {
+  width: 24px;
+  height: 24px;
+  background-color: #333;
+  margin: 4px;
+  cursor: pointer;
+}
+
+.seat:hover {
+  border: 2px solid currentColor;
+}
+
+.flight-map .luxury .seat {
+  background-color: var(--gold-bg);
+  color: var(--gold-text);
+  width: 30px;
+  height: 30px;
+}
+.flight-map .classic .seat {
+  background-color: var(--main-bg);
+  color: var(--dark-bg);
+}
+.flight-map .zone {
+  display: flex;
+}
+
+.flight-map .class {
+  display: flex;
+  margin-left: 10px;
+
+}
+
+.flight-map .row {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
