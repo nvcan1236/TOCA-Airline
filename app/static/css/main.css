@@ -377,3 +377,35 @@ footer {
     display: flex;
     justify-content: space-between;
 }
+
+/* payment */
+.payment {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    width: 100%;
+}
+
+.payment .card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 50%;
+    padding: 20px;
+}
+
+.payment .card-img {
+    width: 40%;
+
+}
+
+.payment .card-img img {
+    width: 100%;
+}
+
+.payment .date-cvv {
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+}
+

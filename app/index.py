@@ -6,13 +6,20 @@ from flask import render_template
 def index():
     return render_template('home.html')
 
+
 @app.route('/select-flight')
 def select_flight():
     return render_template('select-flight.html')
 
+
 @app.route('/passenger-info')
 def passenger_info():
     return render_template('passenger-info.html')
+
+
+@app.route('/payment')
+def payment():
+    return render_template('payment.html')
 
 
 if __name__ == '__main__':

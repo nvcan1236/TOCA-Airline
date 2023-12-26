@@ -94,6 +94,7 @@ input {
 .form-group {
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .form-group.half {
