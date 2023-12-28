@@ -1,7 +1,7 @@
 from app import app, admin, dao
 from flask import render_template, request
 
-
+from app.admin import *
 @app.context_processor
 def common_response():
     return {
