@@ -1,6 +1,6 @@
 from datetime import datetime
 from app import db, app
-from sqlalchemy import Column, String, ForeignKey, Float, Boolean, Enum, DateTime
+from sqlalchemy import Column, String, ForeignKey, Float, Boolean, Enum, DateTime, Integer
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from enum import Enum as MyEnum
@@ -14,7 +14,7 @@ class UserRole(MyEnum):
 
 class BaseModel(db.Model):
     __abstract__ = True
-    id = Column(String(50), primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
     def __str__(self):
         return self.name
@@ -42,7 +42,7 @@ class MayBay(BaseModel):
 
 class Ghe(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
-    maybay_id = Column(String(50), ForeignKey(MayBay.id), nullable=False)
+    maybay_id = Column(Integer, ForeignKey(MayBay.id), nullable=False)
     ves = relationship('Ve', backref='ghe', lazy=True)
 
     def __str__(self):
@@ -60,8 +60,8 @@ class HangVe(BaseModel):
 
 
 class TuyenBay(BaseModel):
-    sanBayKhoiHanh_id = Column(String(50), ForeignKey(SanBay.id), nullable=False)
-    sanBayDen_id = Column(String(50), ForeignKey(SanBay.id), nullable=False)
+    sanBayKhoiHanh_id = Column(Integer, ForeignKey(SanBay.id), nullable=False)
+    sanBayDen_id = Column(Integer, ForeignKey(SanBay.id), nullable=False)
     chuyenbays = relationship('ChuyenBay', backref='tuyenbay', lazy=True)
 
 
@@ -69,9 +69,9 @@ class ChuyenBay(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
     gioBay = Column(DateTime, default=datetime.now())
     gia = Column(Float)
-    tuyenbay_id = Column(String(50), ForeignKey(TuyenBay.id), nullable=False)
+    tuyenbay_id = Column(Integer, ForeignKey(TuyenBay.id), nullable=False)
     ves = relationship('Ve', backref='chuyenbay', lazy=True)
-    maybay_id = Column(String(50), ForeignKey(MayBay.id), nullable=False)
+    maybay_id = Column(Integer, ForeignKey(MayBay.id), nullable=False)
     tramdungs = relationship('DungChan', backref='chuyenbay', lazy=False)
 
 
@@ -109,23 +109,23 @@ class TaiKhoan(db.Model, UserMixin):
     username = Column(String(50), nullable=False, primary_key=True)
     password = Column(String(50), nullable=False)
     role = Column(Enum(UserRole), default=UserRole.CUSTOMER)
-    nguoidung_id = Column(String(30), ForeignKey(NguoiDung.id), nullable=False)
+    nguoidung_id = Column(Integer, ForeignKey(NguoiDung.id), nullable=False)
 
 
 
 class HoaDon(BaseModel):
-    khachhang_id = Column(String(30), ForeignKey(KhachHang.id), nullable=False)
-    nhanvien_id = Column(String(30), ForeignKey(NhanVien.id), nullable=False)
+    khachhang_id = Column(Integer, ForeignKey(KhachHang.id), nullable=False)
+    nhanvien_id = Column(Integer, ForeignKey(NhanVien.id), nullable=False)
     ves = relationship('Ve', backref='hoadon', lazy=True)
 
 
 class Ve(BaseModel):
-    ghe_id = Column(String(50), ForeignKey(Ghe.id), nullable=False)
+    ghe_id = Column(Integer, ForeignKey(Ghe.id), nullable=False)
     ghetrong = Column(Boolean, default=True)
-    hangve_id = Column(String(50), ForeignKey(HangVe.id), nullable=False)
-    chuyenbay_id = Column(String(50), ForeignKey(ChuyenBay.id), nullable=False)
-    hoadon_id = Column(String(50), ForeignKey(HoaDon.id), nullable=False)
-    khachhang_id = Column(String(50), ForeignKey(KhachHang.id), nullable=False)
+    hangve_id = Column(Integer, ForeignKey(HangVe.id), nullable=False)
+    chuyenbay_id = Column(Integer, ForeignKey(ChuyenBay.id), nullable=False)
+    hoadon_id = Column(Integer, ForeignKey(HoaDon.id), nullable=False)
+    khachhang_id = Column(Integer, ForeignKey(KhachHang.id), nullable=False)
 
 
 if __name__ == '__main__':
