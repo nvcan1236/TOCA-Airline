@@ -88,7 +88,12 @@ button {
 }
 
 
-input {
+input[type='text'],
+input[type='date'],
+input[type='number'],
+input[type='email'],
+input[type='tel']
+{
     padding: 8px 20px;
     font-family: var(--main-font);
     color: var(--dark-text);

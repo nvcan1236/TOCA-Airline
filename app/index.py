@@ -19,7 +19,7 @@ def index():
 def select_flight():
     from_code = request.args.get('from-location')
     to_code = request.args.get('to-location')
-    quantity = request.args.get('quantiyt')
+    quantity = request.args.get('quantity')
     flight_date = request.args.get('flight-date')
     flight = dao.get_flight_by_id(request.args.get('flight'))
     ticket_class = dao.get_ticket_class_by_id(request.args.get('ticket-class'))
@@ -37,7 +37,11 @@ def select_flight():
 
 @app.route('/passenger-info')
 def passenger_info():
-    return render_template('passenger-info.html')
+    flight_id = request.args.get('flight')
+    flight = dao.get_flight_by_id(flight_id)
+    quantity = request.args.get('quantity')
+    flight_date = request.args.get('flight-date')
+    return render_template('passenger-info.html', flight=flight, quantity=quantity, flight_date=flight_date )
 
 
 @app.route('/payment')

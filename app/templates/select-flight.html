@@ -19,7 +19,9 @@
                             class="class-wrapper"
                             onclick="showDetail('{{f.id}}', '{{c.id}}')"
                     >
-                        <input type="radio" name="flight" id="{{ f.id + c.name}}">
+                        <input type="radio" name="flight" id="{{ f.id + c.name}}"
+                            {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
+                        >
                         <div class="{{c.name}} class ">
                             {{ c.gia + f.gia }} VND
                         </div>
@@ -252,7 +254,7 @@
 
         <div class="page-nav">
             <a href="/" class="btn secondary">Quay lại</a>
-            <button class="btn primary">Tiếp</button>
+            <a href="passenger-info?flight={{flight.id}}&quantity={{quantity}}&flight-date={{flight_date}}" class="btn primary">Tiếp</a>
         </div>
 
 

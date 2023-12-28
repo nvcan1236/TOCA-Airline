@@ -31,9 +31,6 @@ ul.navigator a  {
     text-decoration: none;
 }
 
-
-
-
 .actions {
     display: flex;
     gap: 8px
@@ -352,13 +349,15 @@ footer {
 
 /* passenger form*/
 
-.passenger-info {
-    margin-top: 60px;
+.passenger-form {
+    margin-top: 20px;
     padding: 40px 120px;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
     background-color: var(--light-bg);
 }
-
+.passenger-info {
+    margin-top: 60px;
+}
 .personal {
     padding: 20px 0 40px;
     display: flex;

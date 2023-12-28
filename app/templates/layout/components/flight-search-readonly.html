@@ -6,7 +6,11 @@
 
                             <div class="dropdown" id="from-location">
                               <div class="dropdown-select">
-                                <input type="text" name="from-location" class="dropdown-value" value="{{from_loc}}">
+                                <input type="text"
+                                       name="from-location"
+                                       class="dropdown-value"
+                                       value="{{ flight_list[0].tuyenbay.sanbaydi.name if flight_list else flight.tuyenbay.sanbaydi.name }}"
+                                >
                               </div>
                                 <div>
                                     <div></div>
@@ -17,7 +21,10 @@
 
                             <div class="dropdown" id="to-location">
                               <div class="dropdown-select">
-                                  <input type="text" name="to-location" class="dropdown-value" value="{{to_loc}}">
+                                  <input type="text"
+                                         name="to-location"
+                                         class="dropdown-value"
+                                         value="{{ flight_list[0].tuyenbay.sanbayden.name if flight_list else flight.tuyenbay.sanbayden.name }}">
                               </div>
                                  <div>
                                     <div></div>
@@ -28,7 +35,7 @@
                     </div>
                     <div class="qty">
                             <label for="customer-qty">Số lượng</label>
-                        <input type="number" name="quantity" id="customer-qty" min="1" max="5" value="1" readonly>
+                        <input type="number" name="quantity" id="customer-qty" min="1" max="5" value="{{quantity}}" readonly>
                     </div>
                     <div class="time">
                         <label for="date-input">Ngày đi</label>

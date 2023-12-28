@@ -5,9 +5,10 @@
         {% include '/layout/components/flight-search-readonly.html' %}
 
 
-       <div class="passenger-info">
-           <h3>Thông tin khách hàng</h3>
-           <form action="">
+        <div class="passenger-info">
+            <h3>Thông tin khách hàng</h3>
+            {% for i in range(quantity| int) %}
+            <form action="" class="passenger-form">
                <div class="personal">
                    <h3>Thông tin cá nhân</h3>
                    <div>
@@ -91,6 +92,8 @@
                    </div>
                </div>
            </form>
+            {% endfor %}
+
        </div>
 
         <div class="page-nav">
