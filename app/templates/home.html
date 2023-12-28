@@ -2,51 +2,7 @@
 {% block content %}
 <div>
     <section class="main">
-        <div class="search-flight">
-                <div class="greeting">Xin chào! Địa điểm bạn muốn đến là gì?</div>
-                <div class="search">
-                    <div class="location">
-                        <label for="from-location">Địa điểm</label>
-                        <div class="input-wrapper">
-
-                            <div class="dropdown" id="from-location">
-                              <div class="dropdown-select">
-                                <span class="dropdown-value">From</span>
-                                  <i class="fi fi-rs-angle-down"></i>
-                              </div>
-                              <div class="dropdown-list">
-                                <div class="dropdown-item">TP. Hồ Chí Minh</div>
-                                <div class="dropdown-item">Hà Nội</div>
-                                <div class="dropdown-item">Đà Nẵng</div>
-                              </div>
-                            </div>
-
-                            <i class="fi fi-ss-plane"></i>
-
-                            <div class="dropdown" id="to-location">
-                              <div class="dropdown-select">
-                                <span class="dropdown-value">To</span>
-                                  <i class="fi fi-rs-angle-down"></i>
-                              </div>
-                              <div class="dropdown-list">
-                                <div class="dropdown-item">TP. Hồ Chí Minh</div>
-                                <div class="dropdown-item">Hà Nội</div>
-                                <div class="dropdown-item">Đà Nẵng</div>
-                              </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="time">
-                        <label for="date-input">Ngày đi</label>
-                        <div>
-                            <input type="date" id="date-input">
-                        </div>
-                    </div>
-
-                    <button class="btn primary">TÌM KIẾM</button>
-                </div>
-            </div>
+        {% include '/layout/components/flight-search.html'  %}
 
         <div class="suggestion">
             <h3>Địa điểm phổ biến</h3>

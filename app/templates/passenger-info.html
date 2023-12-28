@@ -2,49 +2,8 @@
 {% block content %}
 <div>
     <section class="main">
-        <div class="search-flight">
-                <div class="search">
-                    <div class="location">
-                        <label for="from-location">Địa điểm</label>
-                        <div class="input-wrapper">
+        {% include '/layout/components/flight-search-readonly.html' %}
 
-                            <div class="dropdown" id="from-location">
-                              <div class="dropdown-select">
-                                <span class="dropdown-value">From</span>
-                                  <i class="fi fi-rs-angle-down"></i>
-                              </div>
-                              <div class="dropdown-list">
-                                <div class="dropdown-item">TP. Hồ Chí Minh</div>
-                                <div class="dropdown-item">Hà Nội</div>
-                                <div class="dropdown-item">Đà Nẵng</div>
-                              </div>
-                            </div>
-
-                            <i class="fi fi-ss-plane"></i>
-
-                            <div class="dropdown" id="to-location">
-                              <div class="dropdown-select">
-                                <span class="dropdown-value">To</span>
-                                  <i class="fi fi-rs-angle-down"></i>
-                              </div>
-                              <div class="dropdown-list">
-                                <div class="dropdown-item">TP. Hồ Chí Minh</div>
-                                <div class="dropdown-item">Hà Nội</div>
-                                <div class="dropdown-item">Đà Nẵng</div>
-                              </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="time">
-                        <label for="date-input">Ngày đi</label>
-                        <div>
-                            <input type="date" id="date-input">
-                        </div>
-                    </div>
-
-                </div>
-        </div>
 
        <div class="passenger-info">
            <h3>Thông tin khách hàng</h3>
@@ -98,17 +57,18 @@
                        </div>
                        <div class="form-group half">
                            <label for="nationality">Quốc tịch</label>
-                       <div class="dropdown" id="nationality">
-                          <div class="dropdown-select">
-                            <span class="dropdown-value">Chọn quốc tịch</span>
-                              <i class="fi fi-rs-angle-down"></i>
-                          </div>
-                          <div class="dropdown-list">
-                            <div class="dropdown-item">Việt Nam</div>
-                            <div class="dropdown-item">Mỹ</div>
-                            <div class="dropdown-item">Anh</div>
-                          </div>
-                        </div>
+
+                           <div class="dropdown" id="nationality">
+                              <div class="dropdown-select">
+                                  <input type="text" name="to-location" placeholder="Chọn quốc tịch" class="dropdown-value">
+                                  <i class="fi fi-rs-angle-down"></i>
+                              </div>
+                              <div class="dropdown-list">
+                                <div data-code="Việt Nam" class="dropdown-item">Việt Nam</div>
+                                <div data-code="Mỹ" class="dropdown-item">Mỹ</div>
+                                <div data-code="Anh" class="dropdown-item">Anh</div>
+                                </div>
+                            </div>
                        </div>
                    </div>
                </div>
@@ -134,7 +94,7 @@
        </div>
 
         <div class="page-nav">
-            <button class="btn">Quay lại</button>
+            <a href="/" class="btn secondary">Quay lại</a>
             <button class="btn primary">Tiếp</button>
         </div>
 

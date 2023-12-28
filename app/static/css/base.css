@@ -59,26 +59,29 @@ ul {
   padding: 0;
   margin: 0;
 }
-
+a {
+  text-decoration: none;
+}
 button {
   border: none;
   outline: none !important;
-  cursor: pointer;
 }
 
-button.btn {
+.btn {
+  cursor: pointer;
   padding: 12px 24px;
   border-radius: 4px;
   font-family: var(--main-font);
   font-size: 14px;
+  text-decoration: none;
 }
 
-button.btn.primary {
+.btn.primary {
   background-color: var(--dark-bg);
   color: var(--white);
   padding: 12px 30px;
 }
-button.btn.secondary {
+.btn.secondary {
   background-color: var(--light-bg);
   color: var(--dark-text);
   border: 1px solid var(--dark-bg)
@@ -89,6 +92,7 @@ input {
     padding: 8px 20px;
     font-family: var(--main-font);
     color: var(--dark-text);
+    height: 40px;
 }
 
 .form-group {
@@ -107,9 +111,9 @@ input {
   width: 240px;
   font-size: 14px;
   line-height: 1;
+  height: 40px;
 }
 .dropdown-select {
-  padding: 12px 24px;
   color: var(--dark-text);
   border: 1px solid var(--dark-bg);
   background-color: var(--white);
@@ -118,9 +122,12 @@ input {
   pointer-events: none;
 }
 
-.dropdown-select span {
+.dropdown-select input {
   flex: 1;
+  padding: 12px 24px;
+  max-width: calc(100% - 40px);
   pointer-events: none;
+  border: none;
 }
 
 .dropdown-list {
