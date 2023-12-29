@@ -1,18 +1,26 @@
 <header class="header">
-  <a href="/">
-  <div class="logo">
-    <img class="logo-img" src="/static/images/logo.png" alt="">
-    <span>TOCA Airline</span>
-  </div>
-  </a>
-  <ul class="navigator">
-    <li><a href="/">Trang chủ</a></li>
-    <li><a href="/select-flight">Chọn chuyến</a></li>
-    <li><a href="/passenger-info">Điền thông tin</a></li>
-    <li><a href="/payment">Thanh toán</a></li>
-  </ul>
-  <div class="actions">
-    <button class="btn register">Đăng ký</button>
-    <button class="btn primary login">Đăng nhập</button>
-  </div>
+    <a href="/">
+        <div class="logo">
+            <img class="logo-img" src="/static/images/logo.png" alt="">
+            <span>TOCA Airline</span>
+        </div>
+    </a>
+    <ul class="navigator">
+        <li><a href="/">Trang chủ</a></li>
+        <li><a href="/select-flight">Chọn chuyến</a></li>
+        <li><a href="/passenger-info">Điền thông tin</a></li>
+        <li><a href="/payment">Thanh toán</a></li>
+    </ul>
+    <div class="actions">
+        {% if not current_user.is_authenticated %}
+            <button class="btn primary login " onclick="openLoginModal()">Đăng nhập/Đăng ký</button>
+        {% else %}
+            <a href="/logout" class="btn">Đăng xuất</a>
+            <span>{{ current_user.name }}</span>
+            <img src="{{ current_user.avatar }}" alt="avatar" class="avatar">
+        {% endif %}
+
+    </div>
+
+    {% include '/layout/components/modals.html' %}
 </header>

@@ -15,11 +15,11 @@
                     </div>
                     {% for c in ticket_classes %}
                     <label
-                            for="{{ f.id + c.name}}"
+                            for="{{ f.id|string + c.name}}"
                             class="class-wrapper"
                             onclick="showDetail('{{f.id}}', '{{c.id}}')"
                     >
-                        <input type="radio" name="flight" id="{{ f.id + c.name}}"
+                        <input type="radio" name="flight" id="{{ f.id|string + c.name}}"
                             {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
                         >
                         <div class="{{c.name}} class ">
@@ -37,8 +37,8 @@
                     <h3>Lộ trình</h3>
                     <div class="path">
                         <div class="from">
-                            <div class="code">{{flight_list[0].tuyenbay.sanbaydi.id}}</div>
-                            <div class="name">{{flight_list[0].tuyenbay.sanbaydi.name}}</div>
+                            <div class="code">{{ session['order']['from-code']}}</div>
+                            <div class="name">{{ session['order']['from']}}</div>
                             <div class="time">05:00 22/12/2023</div>
                         </div>
 
@@ -51,8 +51,8 @@
                         </div>
 
                         <div class="to">
-                            <div class="code">{{flight_list[0].tuyenbay.sanbayden.id}}</div>
-                            <div class="name">{{flight_list[0].tuyenbay.sanbayden.name}}</div>
+                            <div class="code">{{ session['order']['to-code']}}</div>
+                            <div class="name">{{ session['order']['to']}}</div>
                             <div class="time">12:00 22/12/2023</div>
                         </div>
                     </div>
@@ -95,166 +95,11 @@
             </div>
 
        </div>
-        <div class="flight-map">
-            <div class="zone">
-                <div class="luxury class">
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                </div>
-                <div class="classic class">
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
 
-                </div>
-            </div>
-            <div class="zone">
-                <div class="luxury class">
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                </div>
-                <div class="classic class">
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-                    <div class="row">
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                        <div class="seat"></div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
         <div class="page-nav">
             <a href="/" class="btn secondary">Quay lại</a>
-            <a href="passenger-info?flight={{flight.id}}&quantity={{quantity}}&flight-date={{flight_date}}" class="btn primary">Tiếp</a>
+            <a href="/passenger-info" class="btn primary">Tiếp</a>
         </div>
 
 

@@ -47,3 +47,19 @@ function showDetail(flight, ticketClass) {
     window.location.href = updatedURL
 }
 
+
+const login = document.querySelector('.login-form')
+const register= document.querySelector('.register-form')
+  function switchForm() {
+    login.classList.toggle('hide')
+    register.classList.toggle('hide')
+  }
+
+loginModal = document.getElementById('modal-login')
+function openLoginModal() {
+      loginModal.classList.add('open')
+  }
+
+  function closeLoginModal() {
+      loginModal.classList.remove('open')
+  }
