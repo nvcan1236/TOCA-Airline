@@ -1,7 +1,30 @@
 import hashlib
-from app import db
+
+from sqlalchemy import func
+
+from app import db, utils
 from app.models import SanBay, TuyenBay, ChuyenBay, HangVe, NguoiDung, HanhKhach, Ve, HoaDon
 from cloudinary import uploader
+
+
+def get_stats(from_date=None, to_date=None):
+    if from_date and to_date:
+        # from_date = utils.format_date(from_date)
+        # to_date = utils.format_date(to_date)
+        result = db.session.query(TuyenBay.id, TuyenBay.name, func.sum(Ve.tong_tien_ve).label('total_tong_tien_ve')) \
+            .filter(ChuyenBay.gio_bay.between(from_date, to_date))\
+            .join(ChuyenBay, TuyenBay.id == ChuyenBay.tuyenbay_id, isouter=True) \
+            .join(Ve, ChuyenBay.id == Ve.chuyenbay_id) \
+            .group_by(TuyenBay.id) \
+            .all()
+    else:
+        result = db.session.query(TuyenBay.id, TuyenBay.name, func.sum(Ve.tong_tien_ve).label('total_tong_tien_ve')) \
+            .join(ChuyenBay, TuyenBay.id == ChuyenBay.tuyenbay_id, isouter=True) \
+            .join(Ve, ChuyenBay.id == Ve.chuyenbay_id) \
+            .group_by(TuyenBay.id) \
+            .all()
+
+    return result
 
 
 def get_airports():
@@ -30,6 +53,10 @@ def get_flight_by_id(id=None):
 
 def get_flights():
     return ChuyenBay.query.all()
+
+
+def get_routes():
+    return TuyenBay.query.all()
 
 
 def search_flight(from_code, to_code, date=None):

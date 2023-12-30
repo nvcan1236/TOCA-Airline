@@ -23,7 +23,7 @@
                             {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
                         >
                         <div class="{{c.name}} class ">
-                            {{ c.gia + f.gia }} VND
+                            {{ "{:,.1f}".format( c.gia + f.gia) }} VND
                         </div>
                     </label>
                     {% endfor %}
@@ -81,13 +81,13 @@
                 <div class="price">
                     <h3>Chi phí</h3>
                     <div class="price-item flight-price">
-                        Giá chặng bay: <span>{{flight.gia}} VND</span>
+                        Giá chặng bay: <span>{{"{:,.1f}".format(flight.gia)}} VND</span>
                     </div>
                     <div class="price-item ticket-price">
-                        Giá vé: <span>{{ticket_class.gia}} VND</span>
+                        Giá vé: <span>{{"{:,.1f}".format(ticket_class.gia)}} VND</span>
                     </div>
                     <div class="price-item total">
-                        Tổng: <span>{{flight.gia + ticket_class.gia}} VND</span>
+                        Tổng: <span>{{"{:,.1f}".format(flight.gia + ticket_class.gia)}} VND</span>
                     </div>
                 </div>
                 {% endif%}

@@ -11,7 +11,7 @@
                         <div class="form-group">
                             <label for="language">Loại thanh toán </label>
                             <select name="order_type" id="order_ype" class="form-control">
-                                <option value="billpayment" selected>Thanh toán vé máy bay</option>
+                                <option value="billpayment" selected>Thanh toán hoá đơn</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -19,12 +19,12 @@
                             <input class="form-control" data-val="true"
                                    data-val-number="The field Amount must be a number."
                                    data-val-required="The Amount field is required." id="Amount" name="amount"
-                                   type="text" value="10000">
+                                   type="text" value="{{ bill.tong_hoa_don|int }}">
                         </div>
                         <div class="form-group">
                             <label for="OrderDescription">Nội dung thanh toán</label>
                             <textarea class="form-control" cols="20" id="OrderDescription" name="order_desc"
-                                      rows="2">Thanh toan don hang thoi gian: 2023-12-29 16:20:32</textarea>
+                                      rows="2">Thanh toan ve ma bay cho hoa don {{ bill.id }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="bankcode">Ngân hàng</label>
@@ -75,8 +75,7 @@
                             </select>
                         </div>
                         {% if current_user.is_authenticated %}
-                        <button type="submit" class="btn btn-default" id="btnPopup">Thanh toán Popup</button>
-                        <button type="submit" class="btn primary btn-default">Thanh toán Redirect</button>
+                        <button type="submit" class="btn primary btn-default">Thanh toán</button>
                         {% else %}
                         <button class="btn primary">Đăng nhập / Đăng ký</button>
                         {% endif %}
@@ -87,10 +86,10 @@
                 <div class="bill">
                     <h3>Thông tin hoá đơn</h3>
                     <ul>
-                        <li>Tiền vé <span class="qty">x{{ session['customers']|length }}</span><span class="money">5000000 VND</span>
+                        <li>Tiền vé <span class="qty">x{{ session['customers']|length }}</span><span class="money">{{ "{:,.1f}".format(session['customers']|length * (flight.gia + ticket_class.gia) )}} VND</span>
                         </li>
-                        <li>Tiền thuế (8%): <span class="money">400000 VND</span></li>
-                        <li class="total">Tổng: <span class="money">540000 VND</span></li>
+                        <li>Tiền thuế (8%): <span class="money">{{ "{:,.1f}".format( 0.08 *  session['customers']|length * (flight.gia + ticket_class.gia) )}} VND</span></li>
+                        <li class="total">Tổng: <span class="money">{{ "{:,.1f}".format( bill.tong_hoa_don )}} VND</span></li>
                     </ul>
                 </div>
             </div>

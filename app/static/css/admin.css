@@ -190,12 +190,7 @@ footer {
 .chart {
     max-width: 600px ;
     margin-inline: auto;
-    margin-top: 20px;
-}
-
-.stats .show-btn{
-    display: block;
-    margin-inline: auto;
+    margin-top: 60px;
 }
 
 .stats-type {
@@ -206,11 +201,16 @@ footer {
 }
 
 
-
 .stats-filter {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+}
+
+.stats-filter label {
+    margin: 0;
 }
 
 .stats-filter .to .chose-date {

@@ -43,21 +43,24 @@ class MayBay(BaseModel):
 
 
 class TuyenBay(BaseModel):
+    name = Column(String(100), nullable=False)
     sanBayKhoiHanh_id = Column(Integer, ForeignKey(SanBay.id), nullable=False)
     sanBayDen_id = Column(Integer, ForeignKey(SanBay.id), nullable=False)
     chuyenbays = relationship('ChuyenBay', backref='tuyenbay', lazy=True)
+
     def __str__(self):
         return self.sanbaydi.name + ' - ' + self.sanbayden.name
 
 
 class ChuyenBay(BaseModel):
     name = Column(String(50), nullable=False, unique=True)
-    gioBay = Column(DateTime, default=datetime.now())
+    gio_bay = Column(DateTime)
+    gio_den = Column(DateTime)
     gia = Column(Float)
+    maybay_id = Column(Integer, ForeignKey(MayBay.id), nullable=False)
     tuyenbay_id = Column(Integer, ForeignKey(TuyenBay.id), nullable=False)
     ves = relationship('Ve', backref='chuyenbay', lazy=False)
     ghes = relationship('Ghe', backref='chuyenbay', lazy=True)
-    maybay_id = Column(Integer, ForeignKey(MayBay.id), nullable=False)
     tramdungs = relationship('DungChan', backref='chuyenbay', lazy=True)
 
     def __str__(self):
@@ -92,8 +95,8 @@ class DungChan(BaseModel):
 
 class Nguoi(BaseModel):
     name = Column(String(50), nullable=False)
-    phone = Column(String(50),  unique=True)
-    email = Column(String(50),  unique=True)
+    phone = Column(String(50), unique=True)
+    email = Column(String(50), unique=True)
     ngay_sinh = Column(DateTime)
     gioi_tinh = Column(Enum(GenderEnum), default=GenderEnum.NAM)
 
@@ -101,7 +104,8 @@ class Nguoi(BaseModel):
 class NguoiDung(Nguoi, UserMixin):
     username = Column(String(50), nullable=False, default='')
     password = Column(String(50), nullable=False, default='')
-    avatar = Column(String(200), default='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgee_ioFQrKoyiV3tnY77MLsPeiD15SGydSQ&usqp=CAU')
+    avatar = Column(String(200),
+                    default='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgee_ioFQrKoyiV3tnY77MLsPeiD15SGydSQ&usqp=CAU')
     role = Column(Enum(UserRole), default=UserRole.CUSTOMER)
     hoadons = relationship('HoaDon', backref='nhanvien', lazy=True, foreign_keys='HoaDon.nguoi_thanh_toan_id')
 
@@ -128,6 +132,37 @@ class Ve(BaseModel):
     hanhkhach_id = Column(Integer, ForeignKey(HanhKhach.id), nullable=False)
     tong_tien_ve = Column(Float, nullable=False)
 
+
+class QuyDinh(BaseModel):
+    noi_dung = Column(String(100), nullable=False)
+    gia_tri = Column(Integer, nullable=False)
+
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+
+        # for s in ['Ha Noi', 'Da Nang', 'Ho Chi Minh']:
+        #     sb = SanBay
+        #     sb.name = s
+        #     sb.diaChi = s
+        #     db.session.add(sb)
+        #
+        # for s in ['luxury', 'classic']:
+        #     cl = HangVe()
+        #     cl.name = s
+        #     cl.gia = len(s)*100000
+        #     db.session.add(cl)
+        #
+        # for s in ['Boing 747', 'Airbus 375', 'Airbus11']:
+        #     mb = MayBay()
+        #     mb.name = s
+        #     db.session.add(mb)
+        #
+        # admin = NguoiDung()
+        # admin.name = 'Administrator'
+        # admin.username = 'admin'
+        # admin.password = '202cb962ac59075b964b07152d234b70' #pw: 123
+        # db.session.add(admin)
+        #
+        # db.session.commit()

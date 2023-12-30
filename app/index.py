@@ -7,6 +7,7 @@ from admin import *
 def common_response():
     return {
         'airports': dao.get_airports(),
+        'routes': dao.get_routes(),
         'ticket_classes': dao.get_ticket_classes()
     }
 
@@ -98,6 +99,8 @@ def payment():
         ticket = dao.create_ticket(flight_id=flight.id, ticket_class_id=ticket_class.id, customer_id=cus.id, bill_id=bill.id)
         bill.tong_hoa_don += ticket.tong_tien_ve
 
+    bill.tong_hoa_don *= 1.08
+
     if request.method == 'POST':
         return utils.pay(bill.id)
 
@@ -109,9 +112,9 @@ def payment():
             del session['order']
             del session['customers']
 
-        return redirect(f'/payment_result?status={status}')
+        return redirect(f'/payment-result?status={status}')
 
-    return render_template('payment.html')
+    return render_template('payment.html', bill=bill, flight=flight, ticket_class=ticket_class)
 
 
 @app.route('/payment-result')
