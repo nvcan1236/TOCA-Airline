@@ -17,13 +17,13 @@
 
         <h3>Đơn hàng đã được thanh toán thành công</h3>
 
-        <a href="/" class="btn primary">Trở về trang chủ</a>
+        <a href="/{{ next if next else '' }}" class="btn primary">Trở về </a>
     {% else %}
         <img src="{{ url_for('static', filename='/images/fail.jfif') }}" alt="">
 
         <h3>Thanh toán thất bại</h3>
 
-        <a href="/" class="btn primary">Thử lại</a>
+        <a href="/{{ next if next else '' }}" class="btn primary">Thử lại</a>
     {% endif %}
 
 

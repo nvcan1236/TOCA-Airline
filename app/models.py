@@ -57,6 +57,7 @@ class ChuyenBay(BaseModel):
     gio_bay = Column(DateTime)
     gio_den = Column(DateTime)
     gia = Column(Float)
+    san_sang = Column(Boolean, default=False)
     maybay_id = Column(Integer, ForeignKey(MayBay.id), nullable=False)
     tuyenbay_id = Column(Integer, ForeignKey(TuyenBay.id), nullable=False)
     ves = relationship('Ve', backref='chuyenbay', lazy=False)
@@ -163,6 +164,7 @@ if __name__ == '__main__':
         # admin.name = 'Administrator'
         # admin.username = 'admin'
         # admin.password = '202cb962ac59075b964b07152d234b70' #pw: 123
+        #  admin.role = 'ADMIN'
         # db.session.add(admin)
         #
         # db.session.commit()

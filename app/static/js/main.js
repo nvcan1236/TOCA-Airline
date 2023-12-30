@@ -63,3 +63,8 @@ function openLoginModal() {
   function closeLoginModal() {
       loginModal.classList.remove('open')
   }
+
+function showOrderForm() {
+    orderForm = document.getElementById('frmCreateOrder')
+    orderForm.classList.remove('hide')
+}

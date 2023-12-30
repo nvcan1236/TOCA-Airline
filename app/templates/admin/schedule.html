@@ -1,9 +1,114 @@
 {% extends 'admin/base-admin.html' %}
 
 {% block content %}
-<div class="schedule">
-    <h3>Danh sách chuyến bay cần lập lịch</h3>
-    
-</div>
+    <div class="schedule mt-5">
+        <h3>Danh sách chuyến bay cần lập lịch</h3>
 
+        <ul class="list-group mt-5">
+            {% for f in scheduled_flights %}
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <div>{{ f.name }}</div>
+                    <div>{{ f.gio_bay }}</div>
+                    <div>{{ f.gio_den }}</div>
+                    <div>{{ f.gia }} VND</div>
+
+                        <a href="?flight-id={{ f.id }}" class="btn btn-dark">
+                            <i class="fi fi-rr-file-edit"></i> <span class="ml-2">Edit</span>
+                        </a>
+                </li>
+            {% endfor %}
+        </ul>
+
+
+        <!-- Modal -->
+        <div class="modal fade " id="modal" tabindex="-1" role="dialog"
+             aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false">
+            <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+                <div class="modal-content p-4" style="width: 800px">
+                    <div class="modal-header p-3">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Lập lịch cho chuyến bay </h5>
+                    </div>
+                    {% if flight %}
+                        <div class="modal-body p-3">
+                            <form class="" action="/admin/scheduleview?flight-id={{ flight.id }}" method="post">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Ngày giờ khởi hành</label>
+                                        <input type="datetime-local" class="form-control" name="flight-from-date"
+                                               value="{{ flight.gio_bay }}">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>Ngày giờ đến</label>
+                                        <input type="datetime-local" class="form-control" name="flight-to-date"
+                                               value="{{ flight.gio_den }}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="">Giá chặng bay</label>
+                                    <input type="number" name="flight-price" class="form-control" placeholder="VND"
+                                           value="{{ flight.gia }}">
+                                </div>
+
+                                <div class="form-row">
+                                    {% for c in ticket_classes %}
+                                        <div class="form-group col-md-6">
+                                            <label for="exampleInputEmail1">Số lượng ghế hạng {{ c.name }}</label>
+                                            <input name="flight-seat-num" type="number" class="form-control">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                                <div>
+                                    <label for="">Sân bay trung gian</label>
+                                    <input class="hide" type="radio" name="" id="" checked>
+
+                                    {% for i in range(2) %}
+                                        <div class="mt-2 form-group term">
+                                            <div class="d-flex">
+                                                <select class="form-control mr-2" name="term-id-no{{ i }}">
+                                                    {% for s in airports %}
+                                                        {% if flight.tuyenbay.sanbaydi.id != s.id and  flight.tuyenbay.sanbayden.id != s.id %}
+                                                            <option value="{{ s.id }}">{{ s.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <input type="number" class="form-control mr-2"
+                                                       name="term-time-no{{ i }}"
+                                                       placeholder="Thời gian dừng">
+                                                <input type="text" class="form-control" name="term-note-no{{ i }}"
+                                                       placeholder="Ghi chú">
+                                                <label for="{{ i }}" class="ml-3 bg-light border px-3 pb-1 pt-2">
+                                                    <i class="fi fi-rr-plus"></i>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <input class="hide" type="radio" id="{{ i }}">
+                                    {% endfor %}
+                                </div>
+
+                                <div class="d-flex justify-content-end pt-3">
+                                    <button type="button" class="btn btn-secondary mr-4" data-dismiss="modal">Đóng
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        {% if flight %}
+            window.onload = function () {
+                $(document).ready(function () {
+                    $('#modal').modal('show');
+                });
+            }
+        {% endif %}
+    </script>
 {% endblock %}

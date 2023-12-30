@@ -22,9 +22,45 @@ class AdminBaseView(BaseView):
 
 
 class SaleView(EmployeeBaseView):
-    @expose('/')
+    @expose('/', methods=['post', 'get'])
     def index(self):
-        return self.render('/admin/sale-ticket.html')
+        from_code = request.args.get('from-location')
+        to_code = request.args.get('to-location')
+        flight = dao.get_flight_by_id(request.args.get('flight'))
+        ticket_class = dao.get_ticket_class_by_id(request.args.get('ticket-class'))
+        global user
+        global bill
+        user = bill = None
+        flights = dao.search_flight(from_code, to_code)
+        if request.method == 'POST':
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            # is_adult = request.form.get('adult')
+            gender = request.form.get('gender')
+            dob = request.form.get('dob')
+            nationality = request.form.get('nationality')
+            phone = request.form.get('phone')
+            email = request.form.get('email')
+            address = request.form.get('address')
+
+            c = {}
+            c['name'] = lname + fname
+            # c['is_adult'] = is_adult.__eq__('true')
+            c['gender'] = gender
+            c['dob'] = dob
+            c['nationality'] = nationality
+            c['phone'] = phone
+            c['email'] = email
+            c['address'] = address
+
+            user = dao.create_customer(name=c['name'], gender=c['gender'], dob=c['dob'],
+                                       nationality=c['nationality'], phone=c['phone'],
+                                       email=c['email'], address=c['address'])
+
+            bill = dao.create_bill(current_user.id, (flight.gia + ticket_class.gia) * 1.08)
+
+        return self.render('/admin/sale-ticket.html', flights=flights, flight=flight,
+                           ticket_class=ticket_class, user=user, bill=bill)
 
 
 class StatsView(AdminBaseView):
@@ -41,7 +77,6 @@ class StatsView(AdminBaseView):
             for s in stats:
                 total += s[2]
             print(from_date, to_date, to_date.__eq__(datetime.now))
-            # to_now = utils.check_same_date(to_date, datetime.now())
             return self.render('/admin/stats.html', stats=stats, total=total, empty=stats == [],
                                from_date=from_date, to_date=to_date)
         else:
@@ -49,14 +84,30 @@ class StatsView(AdminBaseView):
             total = 0
             for s in stats:
                 total += s[2]
-            print('B')
             return self.render('/admin/stats.html', stats=stats, total=total)
 
 
 class ScheduleView(EmployeeBaseView):
-    @expose('/')
+    @expose('/', methods=['post', 'get'])
     def index(self):
-        return self.render('/admin/schedule.html')
+        scheduled_flights = dao.get_scheduled_fllights()
+        flight_id = request.args.get('flight-id')
+        flight = dao.get_flight_by_id(flight_id)
+
+        if request.method == 'POST':
+            form = request.form
+            if flight:
+                flight.gio_bay = form.get('flight-from-date')
+                flight.gio_den = form.get('flight-to-date')
+                flight.gia = form.get('flight-price')
+                flight_seats = form.getlist('flight-seat-num')
+
+                print(flight_seats)
+                for i, c in enumerate(dao.get_ticket_classes()):
+                    print(flight_id, c.id, flight_seats[i])
+                    dao.set_seat(flight_id, c.id, flight_seats[i])
+
+        return self.render('/admin/schedule.html', scheduled_flights=scheduled_flights, flight=flight)
 
 
 class ChangeRegulationView(AdminBaseView):
@@ -104,7 +155,7 @@ class MyMayBayView(AdminView):
     column_list = ['name', 'chuyenbays']
 
 
-class RegulationView(ModelView):
+class RegulationView(AdminView):
     column_editable_list = ['gia_tri']
     edit_modal = True
 

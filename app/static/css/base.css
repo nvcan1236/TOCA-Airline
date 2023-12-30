@@ -110,6 +110,11 @@ input[type='password']
     height: 40px;
 }
 
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 
 .form-group {
   display: flex;

@@ -1,110 +1,117 @@
 {% extends 'layout/base.html' %}
 {% block content %}
-<div>
-    <section class="main">
+    <div>
+        <section class="main">
 
-        {% include '/layout/components/flight-search-readonly.html' %}
+            {% include '/layout/components/flight-search-readonly.html' %}
 
-       <div class="select-flight">
-            <ul class="flight-list">
-                {% for f in flight_list %}
-                <li class="flight-item">
-                    <div class="brief-info">
-                        <span>05:00 đến 12:00</span>
-                        <span>{{f.maybay.name}}</span>
-                    </div>
-                    {% for c in ticket_classes %}
-                    <label
-                            for="{{ f.id|string + c.name}}"
-                            class="class-wrapper"
-                            onclick="showDetail('{{f.id}}', '{{c.id}}')"
-                    >
-                        <input type="radio" name="flight" id="{{ f.id|string + c.name}}"
-                            {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
-                        >
-                        <div class="{{c.name}} class ">
-                            {{ "{:,.1f}".format( c.gia + f.gia) }} VND
-                        </div>
-                    </label>
+            <div class="select-flight">
+                <ul class="flight-list">
+                    {% for f in flight_list %}
+                        <li class="flight-item">
+                            <div class="brief-info">
+                                <span>{{ f.gio_bay.hour }}:{{ f.gio_bay.minute }} đến {{ f.gio_den.hour }}:{{ f.gio_den.minute }}</span>
+                                <span>{{ f.maybay.name }}</span>
+                            </div>
+                            {% for c in ticket_classes %}
+                                <label
+                                        for="{{ f.id|string + c.name }}"
+                                        class="class-wrapper"
+                                        onclick="showDetail('{{ f.id }}', '{{ c.id }}')"
+                                >
+                                    <input type="radio" name="flight" id="{{ f.id|string + c.name }}"
+                                            {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
+                                    >
+                                    <div class="{{ c.name }} class ">
+                                        {{ "{:,.1f}".format( c.gia + f.gia) }} VND
+                                    </div>
+                                </label>
+                            {% endfor %}
+                        </li>
                     {% endfor %}
-                </li>
-                {% endfor %}
+                </ul>
 
-            </ul>
+                <div class="flight-detail">
+                <h3>Chi tiết chuyến bay</h3>
+                {% if flight and ticket_class %}
+                    <div class="station">
+                        <h3>Lộ trình</h3>
 
-            <div class="flight-detail">
-                <div class="station">
-                    <h3>Lộ trình</h3>
-                    <div class="path">
-                        <div class="from">
-                            <div class="code">{{ session['order']['from-code']}}</div>
-                            <div class="name">{{ session['order']['from']}}</div>
-                            <div class="time">05:00 22/12/2023</div>
-                        </div>
+                            <div class="path">
+                                <div class="from">
+                                    <div class="code">{{ session['order']['from-code'] }}</div>
+                                    <div class="name">{{ session['order']['from'] }}</div>
+                                    <div class="time">{{ flight.gio_bay }}</div>
+                                </div>
 
-                        <div class="between">
-                            <span>7 giờ</span>
-                            <span>
+                                <div class="between">
+                                    <span>{{ (( flight.gio_den - flight.gio_bay).total_seconds() / 3600)|int }} giờ</span>
+                                    <span>
                                 <i class="fi fi-ss-plane"></i>
                             </span>
-                            <span>2 trạm</span>
-                        </div>
+                                    <span>2 trạm</span>
+                                </div>
 
-                        <div class="to">
-                            <div class="code">{{ session['order']['to-code']}}</div>
-                            <div class="name">{{ session['order']['to']}}</div>
-                            <div class="time">12:00 22/12/2023</div>
-                        </div>
-                    </div>
-
-<!--                    Danh sách trạm dừng chân nếu có-->
-
-                    <div class="termination">
-                        <h3>Danh sách trạm dừng</h3>
+                                <div class="to">
+                                    <div class="code">{{ session['order']['to-code'] }}</div>
+                                    <div class="name">{{ session['order']['to'] }}</div>
+                                    <div class="time">{{ flight.gio_den }}</div>
+                                </div>
+                            </div>
+                            <div class="termination">
+                                <h3>Danh sách trạm dừng</h3>
+                                <ul>
+{#                                    {{ flight. }}#}
+                                    <li>1. <span class="code">DNN </span>- Đà Nẵng</li>
+                                    <li>2. <span class="code">HPN </span>- Hải Phòng</li>
+                                </ul>
+                            </div>
+                            </div>
+                    <div class="benefit">
+                        <h3>Quyền lợi</h3>
                         <ul>
-                            <li>1. <span class="code">DNN </span>- Đà Nẵng</li>
-                            <li>2. <span class="code">HPN </span>- Hải Phòng</li>
+                            {% if  ticket_class.quyenloi %}
+                                {% set my_array = ticket_class.quyenloi.split('#') %}
+
+                                {% for item in my_array %}
+                                    <li>{{ item }}</li>
+                                {% endfor %}
+                            {% else %}
+                                Vui lòng chọn chuyến bay để xem chi tiết
+                            {% endif %}
                         </ul>
                     </div>
+                    <div class="price">
+                        <h3>Chi phí</h3>
+                        <div class="price-item flight-price">
+                            Giá chặng bay: <span>{{ "{:,.1f}".format(flight.gia) }} VND</span>
+                        </div>
+                        <div class="price-item ticket-price">
+                            Giá vé: <span>{{ "{:,.1f}".format(ticket_class.gia) }} VND</span>
+                        </div>
+                        <div class="price-item total">
+                            Tổng: <span>{{ "{:,.1f}".format(flight.gia + ticket_class.gia) }} VND</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>(  Chọn chuyến bay để xem chi tiết)</p>
+                {% endif %}
+
                 </div>
-                {% if flight and ticket_class %}
-                <div class="benefit">
-                    <h3>Quyền lợi</h3>
-                    <div>
-                        {{ticket_class.quyenloi if ticket_class.quyenloi else ''}}
-                    </div>
-                    <ul>
-                        <li>Hành lý xách tay: 07Kg.</li>
-                        <li>Bảo hiểm Sky Care</li>
-                    </ul>
-                </div>
-                <div class="price">
-                    <h3>Chi phí</h3>
-                    <div class="price-item flight-price">
-                        Giá chặng bay: <span>{{"{:,.1f}".format(flight.gia)}} VND</span>
-                    </div>
-                    <div class="price-item ticket-price">
-                        Giá vé: <span>{{"{:,.1f}".format(ticket_class.gia)}} VND</span>
-                    </div>
-                    <div class="price-item total">
-                        Tổng: <span>{{"{:,.1f}".format(flight.gia + ticket_class.gia)}} VND</span>
-                    </div>
-                </div>
-                {% endif%}
 
             </div>
 
-       </div>
+
+            <div class="page-nav">
+                <a href="/" class="btn secondary">Quay lại</a>
+                <a href="/passenger-info" class="btn primary
+                    {% if not flight  %}disabled{% endif %}
+                ">Tiếp</a>
+            </div>
 
 
-        <div class="page-nav">
-            <a href="/" class="btn secondary">Quay lại</a>
-            <a href="/passenger-info" class="btn primary">Tiếp</a>
-        </div>
+        </section>
+    </div>
 
-
-    </section>
-</div>
-
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

@@ -7,7 +7,7 @@
             <div class="payment">
                 <div class="payment-info">
                     <h3>Thông tin thẻ</h3>
-                    <form action="/payment" id="frmCreateOrder" method="post">
+                    <form action="/payment?bill_id={{ bill.id }}" id="frmCreateOrder" method="post">
                         <div class="form-group">
                             <label for="language">Loại thanh toán </label>
                             <select name="order_type" id="order_ype" class="form-control">
@@ -75,9 +75,9 @@
                             </select>
                         </div>
                         {% if current_user.is_authenticated %}
-                        <button type="submit" class="btn primary btn-default">Thanh toán</button>
+                            <button type="submit" class="btn primary btn-default">Thanh toán</button>
                         {% else %}
-                        <button class="btn primary">Đăng nhập / Đăng ký</button>
+                            <button class="btn primary">Đăng nhập / Đăng ký</button>
                         {% endif %}
                         <input name="__RequestVerificationToken" type="hidden"
                                value="Y0dUy_D81Ad-MaB0d22ZElT0tw_ImXJPsZgn6r5bpL676JqmouRgwUovbbnufVOw02mfCWGDJz7j72Z6a26hEVSS8f6OtO8Knx1rit6rz101">
@@ -86,10 +86,14 @@
                 <div class="bill">
                     <h3>Thông tin hoá đơn</h3>
                     <ul>
-                        <li>Tiền vé <span class="qty">x{{ session['customers']|length }}</span><span class="money">{{ "{:,.1f}".format(session['customers']|length * (flight.gia + ticket_class.gia) )}} VND</span>
+                        <li>Tiền vé <span class="qty">x{{ session['customers']|length }}</span><span
+                                class="money">{{ "{:,.1f}".format(session['customers']|length * (flight.gia + ticket_class.gia) ) }} VND</span>
                         </li>
-                        <li>Tiền thuế (8%): <span class="money">{{ "{:,.1f}".format( 0.08 *  session['customers']|length * (flight.gia + ticket_class.gia) )}} VND</span></li>
-                        <li class="total">Tổng: <span class="money">{{ "{:,.1f}".format( bill.tong_hoa_don )}} VND</span></li>
+                        <li>Tiền thuế (8%): <span
+                                class="money">{{ "{:,.1f}".format( 0.08 *  session['customers']|length * (flight.gia + ticket_class.gia) ) }} VND</span>
+                        </li>
+                        <li class="total">Tổng: <span
+                                class="money">{{ "{:,.1f}".format( bill.tong_hoa_don ) }} VND</span></li>
                     </ul>
                 </div>
             </div>

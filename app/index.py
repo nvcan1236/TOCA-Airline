@@ -8,8 +8,15 @@ def common_response():
     return {
         'airports': dao.get_airports(),
         'routes': dao.get_routes(),
-        'ticket_classes': dao.get_ticket_classes()
+        'ticket_classes': dao.get_ticket_classes(),
+        'all_flights': dao.get_flights(),
+        'regulations': dao.get_regulations()
     }
+
+
+@app_login.user_loader
+def load_user(user_id):
+    return dao.get_user_by_id(user_id)
 
 
 @app.route('/')
@@ -76,7 +83,6 @@ def passenger_info():
         else:
             customers.append(c)
             session['customers'] = customers
-            print(session)
 
         # del session['customers']
 
@@ -86,45 +92,47 @@ def passenger_info():
 @app.route('/payment', methods=['post', 'get'])
 @login_required
 def payment():
-    customers = session.get('customers')
-    flight = dao.get_flight_by_id(session['order']['flight'])
-    ticket_class = dao.get_ticket_class_by_id(session['order']['ticket-class'])
-
-    bill = dao.create_bill(current_user.id)
-    for c in customers:
-        print(c)
-        cus = dao.create_customer(name=c['name'], gender=c['gender'],
-                                  nationality=c['nationality'], phone=c['phone'], email=c['email'],
-                                  address=c['address'])
-        ticket = dao.create_ticket(flight_id=flight.id, ticket_class_id=ticket_class.id, customer_id=cus.id, bill_id=bill.id)
-        bill.tong_hoa_don += ticket.tong_tien_ve
-
-    bill.tong_hoa_don *= 1.08
-
+    bill_id=request.args.get('bill_id')
     if request.method == 'POST':
+        bill = dao.get_bill_by_id(bill_id)
         return utils.pay(bill.id)
+    else:
+        customers = session.get('customers')
+        flight = dao.get_flight_by_id(session['order']['flight'])
+        ticket_class = dao.get_ticket_class_by_id(session['order']['ticket-class'])
 
-    payment_status = request.args.get('vnp_TransactionStatus')
-    if payment_status is not None:
-        status = 'success' if payment_status == '00' else 'fail'
-        if status == 'success':
-            bill.da_thanh_toan = True
-            del session['order']
-            del session['customers']
+        bill = dao.create_bill(current_user.id)
+        for c in customers:
+            print(c)
+            cus = dao.create_customer(name=c['name'], gender=c['gender'],
+                                      nationality=c['nationality'], phone=c['phone'], email=c['email'],
+                                      address=c['address'])
+            ticket = dao.create_ticket(flight_id=flight.id, ticket_class_id=ticket_class.id, customer_id=cus.id,
+                                       bill_id=bill.id)
+            bill.tong_hoa_don += ticket.tong_tien_ve
 
-        return redirect(f'/payment-result?status={status}')
+        bill.tong_hoa_don *= 1.08
 
     return render_template('payment.html', bill=bill, flight=flight, ticket_class=ticket_class)
 
 
 @app.route('/payment-result')
 def payment_result():
-    status = request.args.get('status')
-    return render_template('payment-result.html', status=status)
-
-@app_login.user_loader
-def load_user(user_id):
-    return dao.get_user_by_id(user_id)
+    payment_status = request.args.get('vnp_TransactionStatus') or request.args.get('paid-code')
+    status = 'success' if payment_status == '00' else 'fail'
+    bill_id = request.args.get('vnp_TxnRef') or request.args.get('bill_id')
+    bill = dao.get_bill_by_id(bill_id)
+    print(status)
+    if status == 'success':
+        bill.da_thanh_toan = True
+        db.session.add(bill)
+        db.session.commit()
+        if 'order' in session:
+            del session['order']
+        if 'customers' in session:
+            del session['customers']
+    next = request.args.get('next')
+    return render_template('payment-result.html', status=status, next=next)
 
 
 @app.route('/register', methods=['post'])

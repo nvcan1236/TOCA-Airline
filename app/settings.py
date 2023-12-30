@@ -1,4 +1,4 @@
 VNPAY_TMN_CODE = 'WNWB9V0T'
-VNPAY_RETURN_URL = 'http://127.0.0.1:5000/payment'
+VNPAY_RETURN_URL = 'http://127.0.0.1:5000/payment-result'
 VNPAY_HASH_SECRET_KEY = 'IOIDHPEXPTMAHCKDBICMSKKWBSKCLGFN'
 VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'

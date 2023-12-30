@@ -3,7 +3,7 @@ import hashlib
 from sqlalchemy import func
 
 from app import db, utils
-from app.models import SanBay, TuyenBay, ChuyenBay, HangVe, NguoiDung, HanhKhach, Ve, HoaDon
+from app.models import SanBay, TuyenBay, ChuyenBay, HangVe, NguoiDung, HanhKhach, Ve, HoaDon, QuyDinh, Ghe
 from cloudinary import uploader
 
 
@@ -12,8 +12,8 @@ def get_stats(from_date=None, to_date=None):
         # from_date = utils.format_date(from_date)
         # to_date = utils.format_date(to_date)
         result = db.session.query(TuyenBay.id, TuyenBay.name, func.sum(Ve.tong_tien_ve).label('total_tong_tien_ve')) \
-            .filter(ChuyenBay.gio_bay.between(from_date, to_date))\
             .join(ChuyenBay, TuyenBay.id == ChuyenBay.tuyenbay_id, isouter=True) \
+            .filter(ChuyenBay.gio_bay.between(from_date, to_date)) \
             .join(Ve, ChuyenBay.id == Ve.chuyenbay_id) \
             .group_by(TuyenBay.id) \
             .all()
@@ -31,6 +31,15 @@ def get_airports():
     return SanBay.query.all()
 
 
+def get_scheduled_fllights():
+    scheduled_fllights = ChuyenBay.query.filter(ChuyenBay.san_sang.__eq__(False))
+    return scheduled_fllights.all()
+
+
+def get_regulations():
+    return QuyDinh.query.all()
+
+
 def get_airport_by_id(id):
     return SanBay.query.get(id)
 
@@ -41,6 +50,10 @@ def get_airport_name(id):
 
 def get_ticket_class_by_id(id=None):
     return HangVe.query.get(id)
+
+
+def get_bill_by_id(bill_id):
+    return HoaDon.query.get(bill_id)
 
 
 def get_ticket_classes():
@@ -88,8 +101,8 @@ def create_customer(name, phone, email, nationality, **kwargs):
     return c
 
 
-def create_bill(nguoi_thanh_toan_id):
-    b = HoaDon(nguoi_thanh_toan_id=nguoi_thanh_toan_id)
+def create_bill(nguoi_thanh_toan_id, tong_hoa_don=0):
+    b = HoaDon(nguoi_thanh_toan_id=nguoi_thanh_toan_id, tong_hoa_don=tong_hoa_don)
     db.session.add(b)
     db.session.commit()
     return b
@@ -118,6 +131,22 @@ def create_user(username, email, password, name, avatar=None):
         print(avatar_result['secure_url'])
     db.session.add(u)
     db.session.commit()
+
+
+def set_seat(flight_id, class_id, qty):
+    seat = Ghe.query.filter(Ghe.chuyenbay_id.__eq__(flight_id), Ghe.hangve_id.__eq__(class_id)).first()
+    if seat:
+        seat.so_luong = qty
+        db.session.add(seat)
+    else:
+        seat = Ghe()
+        seat.chuyenbay_id = flight_id
+        seat.hangve_id = class_id
+        seat.so_luong = qty
+        db.session.add(seat)
+
+    db.session.commit()
+
 
 
 def check_user(username, password):

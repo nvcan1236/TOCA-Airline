@@ -28,7 +28,6 @@ def format_date(date):
 
 def pay(order_id):
     order_type = request.form['order_type']
-    order_id = order_id
     amount = int(request.form['amount'])
     order_desc = request.form['order_desc']
     bank_code = request.form['bank_code']

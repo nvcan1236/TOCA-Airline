@@ -1,3 +1,4 @@
+@import url('https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
 .sale-ticket input {
     padding: 8px 16px;
 }
@@ -50,19 +51,18 @@
 }
 
 .flight-item .brief-info {
-    width: 160px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     border: 1px solid var(--dark-text);
     border-radius: 4px;
-    height: 68px;
 }
 
 .flight-item {
     display: flex;
-    font-weight: 600;
+    gap: 12px;
     align-items: center;
     justify-content: space-between;
 }
@@ -72,21 +72,50 @@
 }
 
 .flight-item .class.chosen {
+
+}
+
+.flight-item .time {
+    font-size: 14px;
+    line-height: 1.2;
+}
+
+.flight-item .plane {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.flight-item .class-wrapper {
+    height: 80px;
+    flex: 1;
+    width: auto;
+    font-weight: 700;
+    font-size: 20px;
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+}
+
+.class-wrapper input:checked + .class {
     border: 2px solid currentColor;
     box-shadow: 0 0 10px 2px currentColor;
 }
 
-.flight-item .class {
-    width: calc(50% - 100px);
-    height: 68px;
-    font-weight: 700;
-    font-size: 20px;
+.class-wrapper .class {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 4px;
-    position: relative;
-    cursor: pointer;
+    background-color: #cccccc;
+}
+
+.class-wrapper input {
+    width: 1px;
+    height: 1px;
+    visibility: hidden;
 }
 
 .flight-item .luxury {
@@ -123,13 +152,48 @@
     background-color: var(--dark-bg);
 }
 
+/*bill*/
+
+.payment .bill {
+    padding: 0 30px;
+    width: 35%;
+}
+
+.payment .bill ul{
+    margin-top: 60px;
+}
+
+.payment .bill li {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+.payment .bill .qty {
+    font-weight: 600;
+}
+
+.payment .bill .total {
+    padding-top: 12px;
+    border-top: 1px dashed #ccc ;
+}
+
+.payment .bill .money {
+    font-weight: 600;
+    color: red;
+}
+
 /*passenger form*/
- .passenger-info {
-     margin-top: 60px;
+ .passenger-info, .payment-info {
+     flex: 1;
+ }
+
+ .passenger-info .form-group.half {
+     width: 48%;
  }
 .passenger-info form {
     margin-top: 16px;
-    padding: 40px 120px;
+    padding: 40px 60px;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
     background-color: var(--light-bg);
 }
@@ -166,7 +230,7 @@
 
 .passenger-info .type,
 .passenger-info .gender {
-    width: 40%;
+
     display: flex;
     gap: 12px;
 }
@@ -326,3 +390,10 @@ footer {
 }
 
 /*schedule*/
+.term {
+    display: none;
+}
+
+input[type='radio']:checked + .term {
+    display: block;
+}
