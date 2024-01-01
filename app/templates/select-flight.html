@@ -7,35 +7,40 @@
 
             <div class="select-flight">
                 <ul class="flight-list">
-                    {% for f in flight_list %}
-                        <li class="flight-item">
-                            <div class="brief-info">
-                                <span>{{ f.gio_bay.hour }}:{{ f.gio_bay.minute }} đến {{ f.gio_den.hour }}:{{ f.gio_den.minute }}</span>
-                                <span>{{ f.maybay.name }}</span>
-                            </div>
-                            {% for c in ticket_classes %}
-                                <label
-                                        for="{{ f.id|string + c.name }}"
-                                        class="class-wrapper"
-                                        onclick="showDetail('{{ f.id }}', '{{ c.id }}')"
-                                >
-                                    <input type="radio" name="flight" id="{{ f.id|string + c.name }}"
-                                            {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
+                    {% if flight_list[0] %}
+                        {% for f in flight_list %}
+                            <li class="flight-item">
+                                <div class="brief-info">
+                                    <span>{{ f.gio_bay.hour }}:{{ f.gio_bay.minute }} đến {{ f.gio_den.hour }}:{{ f.gio_den.minute }}</span>
+                                    <span>{{ f.maybay.name }}</span>
+                                </div>
+                                {% for c in ticket_classes %}
+                                    <label
+                                            for="{{ f.id|string + c.name }}"
+                                            class="class-wrapper"
+                                            onclick="showDetail('{{ f.id }}', '{{ c.id }}')"
                                     >
-                                    <div class="{{ c.name }} class ">
-                                        {{ "{:,.1f}".format( c.gia + f.gia) }} VND
-                                    </div>
-                                </label>
-                            {% endfor %}
-                        </li>
-                    {% endfor %}
+                                        <input type="radio" name="flight" id="{{ f.id|string + c.name }}"
+                                                {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
+                                        >
+                                        <div class="{{ c.name }} class ">
+                                            {{ "{:,.1f}".format( c.gia + f.gia) }} VND
+                                        </div>
+                                    </label>
+                                {% endfor %}
+                            </li>
+                        {% endfor %}
+                    {% else %}
+                        <h3 class="text-center">( Không tìm thấy chuyến bay phù hợp )</h3>
+                    {% endif %}
+
                 </ul>
 
                 <div class="flight-detail">
-                <h3>Chi tiết chuyến bay</h3>
-                {% if flight and ticket_class %}
-                    <div class="station">
-                        <h3>Lộ trình</h3>
+                    <h3>Chi tiết chuyến bay</h3>
+                    {% if flight and ticket_class %}
+                        <div class="station">
+                            <h3>Lộ trình</h3>
 
                             <div class="path">
                                 <div class="from">
@@ -49,7 +54,7 @@
                                     <span>
                                 <i class="fi fi-ss-plane"></i>
                             </span>
-                                    <span>2 trạm</span>
+                                    <span>{{ terms|length }} trạm</span>
                                 </div>
 
                                 <div class="to">
@@ -61,41 +66,46 @@
                             <div class="termination">
                                 <h3>Danh sách trạm dừng</h3>
                                 <ul>
-{#                                    {{ flight. }}#}
-                                    <li>1. <span class="code">DNN </span>- Đà Nẵng</li>
-                                    <li>2. <span class="code">HPN </span>- Hải Phòng</li>
+                                    {% if terms[0] %}
+                                        {% for t in terms %}
+                                            <li>{{ loop.index }} <span class="code"></span>-
+                                                {{ t.sanbay.name }} - {{ t.thoi_gian_dung|int }} phút</li>
+                                        {% endfor %}
+                                    {% else %}
+                                        Bay thẳng
+                                    {% endif %}
                                 </ul>
                             </div>
-                            </div>
-                    <div class="benefit">
-                        <h3>Quyền lợi</h3>
-                        <ul>
-                            {% if  ticket_class.quyenloi %}
-                                {% set my_array = ticket_class.quyenloi.split('#') %}
+                        </div>
+                        <div class="benefit">
+                            <h3>Quyền lợi</h3>
+                            <ul>
+                                {% if  ticket_class.quyenloi %}
+                                    {% set my_array = ticket_class.quyenloi.split('#') %}
 
-                                {% for item in my_array %}
-                                    <li>{{ item }}</li>
-                                {% endfor %}
-                            {% else %}
-                                Vui lòng chọn chuyến bay để xem chi tiết
-                            {% endif %}
-                        </ul>
-                    </div>
-                    <div class="price">
-                        <h3>Chi phí</h3>
-                        <div class="price-item flight-price">
-                            Giá chặng bay: <span>{{ "{:,.1f}".format(flight.gia) }} VND</span>
+                                    {% for item in my_array %}
+                                        <li>{{ item }}</li>
+                                    {% endfor %}
+                                {% else %}
+                                    Vui lòng chọn chuyến bay để xem chi tiết
+                                {% endif %}
+                            </ul>
                         </div>
-                        <div class="price-item ticket-price">
-                            Giá vé: <span>{{ "{:,.1f}".format(ticket_class.gia) }} VND</span>
+                        <div class="price">
+                            <h3>Chi phí</h3>
+                            <div class="price-item flight-price">
+                                Giá chặng bay: <span>{{ "{:,.1f}".format(flight.gia) }} VND</span>
+                            </div>
+                            <div class="price-item ticket-price">
+                                Giá vé: <span>{{ "{:,.1f}".format(ticket_class.gia) }} VND</span>
+                            </div>
+                            <div class="price-item total">
+                                Tổng: <span>{{ "{:,.1f}".format(flight.gia + ticket_class.gia) }} VND</span>
+                            </div>
                         </div>
-                        <div class="price-item total">
-                            Tổng: <span>{{ "{:,.1f}".format(flight.gia + ticket_class.gia) }} VND</span>
-                        </div>
-                    </div>
-                {% else %}
-                    <p>(  Chọn chuyến bay để xem chi tiết)</p>
-                {% endif %}
+                    {% else %}
+                        <p>( Chọn chuyến bay để xem chi tiết)</p>
+                    {% endif %}
 
                 </div>
 
@@ -105,7 +115,7 @@
             <div class="page-nav">
                 <a href="/" class="btn secondary">Quay lại</a>
                 <a href="/passenger-info" class="btn primary
-                    {% if not flight  %}disabled{% endif %}
+                    {% if not flight %}disabled{% endif %}
                 ">Tiếp</a>
             </div>
 

@@ -1,10 +1,11 @@
 header {
     display: flex;
-    padding: 12px 60px;
+    padding: 20px 60px;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--main-bg);
+    background-color: var(--dark-bg);
 }
+
 .avatar {
     width: 40px;
     height: 40px;
@@ -29,16 +30,23 @@ header {
 ul.navigator {
     display: flex;
     gap: 24px;
-    font-weight: 600;
+    color: var(--white)
+
 }
 
-ul.navigator a  {
+ul.navigator a {
     text-decoration: none;
+    color: var(--white);
+
 }
 
 .actions {
     display: flex;
     gap: 8px
+}
+
+.actions .logout {
+    color: var(--white);
 }
 
 footer {
@@ -49,7 +57,7 @@ footer {
 }
 
 .main {
-    width: min(1200px,80%);
+    width: min(1200px, 80%);
     margin-inline: auto;
 
 }
@@ -68,17 +76,19 @@ footer {
 
 .search-flight {
     margin-top: -100px;
-    background-color: var(--light-bg);
+    background-color: #fff;
     padding: 40px 60px;
     position: relative;
     z-index: 1;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .search-flight .greeting {
     padding-bottom: 32px;
-    font-size: 18px;
-    font-weight: 500;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--dark-text);
     border-bottom: 1px solid var(--main-bg);
 }
 
@@ -88,6 +98,10 @@ footer {
     align-items: flex-end;
     gap: 12px;
     padding: 20px;
+}
+
+.search-flight label {
+    font-weight: 500;
 }
 
 .search-flight .search label {
@@ -109,7 +123,7 @@ footer {
 }
 
 .search-flight .time input {
-    width:160px;
+    width: 160px;
 }
 
 .search-flight .qty {
@@ -137,7 +151,7 @@ footer {
     position: relative;
 }
 
-.dest-item img  {
+.dest-item img {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -357,12 +371,14 @@ footer {
 .passenger-form {
     margin-top: 20px;
     padding: 40px 120px;
-    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: var(--light-bg);
 }
+
 .passenger-info {
     margin-top: 60px;
 }
+
 .personal {
     padding: 20px 0 40px;
     display: flex;
@@ -370,7 +386,7 @@ footer {
     gap: 16px;
 }
 
-.personal>div {
+.personal > div {
     display: flex;
     justify-content: space-between;
 }
@@ -400,7 +416,7 @@ footer {
     gap: 12px;
 }
 
-.contact>div {
+.contact > div {
     display: flex;
     justify-content: space-between;
 }
@@ -422,7 +438,7 @@ footer {
 
 }
 
-.payment button{
+.payment button {
     margin-top: 16px;
 }
 
@@ -431,7 +447,7 @@ footer {
     flex: 1
 }
 
-.payment .bill ul{
+.payment .bill ul {
     margin-top: 60px;
 }
 
@@ -447,7 +463,7 @@ footer {
 
 .payment .bill .total {
     padding-top: 12px;
-    border-top: 1px dashed #ccc ;
+    border-top: 1px dashed #ccc;
 }
 
 .payment .bill .money {
@@ -478,6 +494,7 @@ footer {
     width: 300px;
     height: 300px;
 }
+
 .payment-result button {
     margin-top: 40px;
 }

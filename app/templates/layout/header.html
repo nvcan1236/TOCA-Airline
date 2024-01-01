@@ -10,12 +10,13 @@
         <li><a href="/select-flight">Chọn chuyến</a></li>
         <li><a href="/passenger-info">Điền thông tin</a></li>
         <li><a href="/payment">Thanh toán</a></li>
+        <li><a href="/history">Xem lịch sử đặt vé</a></li>
     </ul>
     <div class="actions">
         {% if not current_user.is_authenticated %}
-            <button class="btn primary login " onclick="openLoginModal()">Đăng nhập/Đăng ký</button>
+            <button class="btn secondary login " onclick="openLoginModal()">Đăng nhập/Đăng ký</button>
         {% else %}
-            <a href="/logout" class="btn">Đăng xuất</a>
+            <a href="/logout" class="btn logout">Đăng xuất</a>
             <span>{{ current_user.name }}</span>
             <img src="{{ current_user.avatar }}" alt="avatar" class="avatar">
         {% endif %}

@@ -84,14 +84,13 @@ class Ghe(BaseModel):
     hangve_id = Column(Integer, ForeignKey(HangVe.id), nullable=False)
     so_luong = Column(Integer, default=True)
 
-    def __str__(self):
-        return self.name
 
 
 class DungChan(BaseModel):
     sanbay_id = Column(ForeignKey(SanBay.id), primary_key=True)
     chuyenbay_id = Column(ForeignKey(ChuyenBay.id), primary_key=True)
-    thoiGianDung = Column(Float)
+    thoi_gian_dung = Column(Float)
+    ghi_chu = Column(String(200))
 
 
 class Nguoi(BaseModel):
@@ -123,7 +122,7 @@ class HoaDon(BaseModel):
     tong_hoa_don = Column(Float, default=0)
     da_thanh_toan = Column(Boolean, default=False)
     ngay_tao = Column(DateTime, default=datetime.now())
-    ves = relationship('Ve', backref='hoadon', lazy=True)
+    ves = relationship('Ve', backref='hoadon', lazy=False)
 
 
 class Ve(BaseModel):

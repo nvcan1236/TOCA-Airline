@@ -14,13 +14,12 @@ def get_prev_url():
 
 
 def check_date(from_date, to_date):
+    return (to_date - from_date) / 3600
 
-    return (to_date - from_date)/3600
 
 def check_same_date(from_date, to_date):
-    from_date = datetime.strptime(from_date, "%Y-%m-%d")
-    to_date = datetime.strptime(to_date, "%Y-%m-%d")
     return from_date.day == to_date.day and from_date.month == to_date.month and from_date.year == to_date.year
+
 
 def format_date(date):
     return datetime.strftime(date, "%Y-%m-%d %H:%M:%S")

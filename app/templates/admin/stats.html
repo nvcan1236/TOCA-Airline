@@ -36,7 +36,7 @@
                     <div>
                         <input type="radio" name="to" id="to-date">
                         <label for="to-date">
-                            <input type="date" name="to-date" >
+                            <input type="date" name="to-date">
                         </label>
                     </div>
                 </div>
@@ -47,8 +47,11 @@
         {% if empty %}
             <h3 class="text-center py-5 my-5">Không tìm thấy kết quả phù hợp, Vui lòng thực hiện lại</h3>
         {% else %}
-            <div class="chart" id="chart-form">
-                <canvas id="myChart"></canvas>
+            <div class="chart py-5 my-5" id="chart-form">
+                <div class="d-flex align-items-end justify-content-between">
+                    <canvas id="chart-turn" width="40"></canvas>
+                    <canvas id="chart-sale"></canvas>
+                </div>
             </div>
 
             <table class="table hide mt-5" id="table-form">
@@ -56,8 +59,9 @@
                 <tr>
                     <th>STT</th>
                     <th>Tuyến bay</th>
+                    <th>Lượt bay</th>
                     <th>Doanh thu</th>
-                    <th>Tỷ lệ</th>
+                    <th>Tỷ lệ doanh thu</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -66,13 +70,15 @@
                     <tr>
                         <td>{{ s[0] }}</td>
                         <td>{{ s[1] }}</td>
-                        <td>{{ "{:,.1f}".format( s[2] ) }}</td>
-                        <td>{{ (s[2] / total * 100) | round(2) }} %</td>
+                        <td>{{ s[2] }}</td>
+                        <td>{{ "{:,.1f}".format( s[3] ) }}</td>
+                        <td>{{ (s[3] / total_sale * 100) | round(2) }} %</td>
                     </tr>
                 {% endfor %}
                 <tr>
                     <th scope="col" colspan="2">Tổng cộng:</th>
-                    <th scope="row">{{ "{:,.1f}".format( total ) }} VND</th>
+                    <th scope="col">{{ total_turn }}</th>
+                    <th scope="row">{{ "{:,.1f}".format( total_sale ) }} VND</th>
                     <th scope="row">100%</th>
                 </tr>
                 </tbody>
@@ -94,20 +100,24 @@
     </div>
 
     <script>
-        const ctx = document.getElementById('myChart');
+        const ctxTurn = document.getElementById('chart-turn').getContext('2d');
+        const ctxSale = document.getElementById('chart-sale').getContext('2d');
         colors = []
         labels = []
-        data = []
+        turn_data = []
+        sale_data = []
 
 
         {% for s in stats %}
             colors.push(getRandomColor())
             labels.push('Tuyến {{ s[1] }}')
-            data.push({{ s[2] }})
+            turn_data.push({{ s[2] }})
+            sale_data.push({{ s[3] }})
         {% endfor %}
 
         window.onload = function () {
-            loadChart(ctx, 'pie', labels, data, 'Thống kê doanh thu theo tuyến bay')
+            loadChart(ctxTurn, 'bar', labels, turn_data, 'Thống kê số lượt bay theo tuyến bay')
+            loadChart(ctxSale, 'pie', labels, sale_data, 'Thống kê doanh thu theo tuyến bay')
         }
 
         function showTable() {
@@ -131,7 +141,6 @@
                 data: {
                     labels,
                     datasets: [{
-                        label: 'Doanh thu',
                         data,
                         backgroundColor: colors,
                         hoverOffset: 4
@@ -148,6 +157,7 @@
                             text: title
                         },
                         legend: {
+                            display: type!=='bar',
                             position: 'right',
                             align: 'start',
                             title: {
@@ -155,9 +165,12 @@
                                 text: 'Chú thích'
                             }
                         }
-                    }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false, // Tắt tỷ lệ khung hình để bạn có thể tự chỉnh độ rộng và độ cao
+                    width: 800, // Độ rộng mong muốn của biểu đồ
                 }
-            });
+            })
         }
 
         function getRandomColor() {

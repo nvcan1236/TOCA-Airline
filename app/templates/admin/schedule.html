@@ -5,6 +5,13 @@
         <h3>Danh sách chuyến bay cần lập lịch</h3>
 
         <ul class="list-group mt-5">
+            {% if not scheduled_flights[0] %}
+                <div class="text-center">
+
+                    <img src="{{ url_for('static', filename='/images/thumbnail.jfif') }}" alt="" width="300" height="300">
+                    <h4 class="text-success my-5" role="alert">Không tồn tại chuyến bay nào cần lập lịch</h4>
+                </div>
+            {% endif %}
             {% for f in scheduled_flights %}
                 <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                     <div>{{ f.name }}</div>
@@ -12,9 +19,12 @@
                     <div>{{ f.gio_den }}</div>
                     <div>{{ f.gia }} VND</div>
 
-                        <a href="?flight-id={{ f.id }}" class="btn btn-dark">
-                            <i class="fi fi-rr-file-edit"></i> <span class="ml-2">Edit</span>
-                        </a>
+                    <div>
+                        <a onclick="done(`?flight-id={{ f.id }}&done=true`)" class="btn btn-success mr-3">Hoàn thành</a>
+                    <a href="?flight-id={{ f.id }}" class="btn btn-dark">
+                        <i class="fi fi-rr-file-edit"></i> <span class="ml-2">Edit</span>
+                    </a>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
@@ -25,10 +35,12 @@
              aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-keyboard="false">
             <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
                 <div class="modal-content p-4" style="width: 800px">
-                    <div class="modal-header p-3">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Lập lịch cho chuyến bay </h5>
-                    </div>
+
                     {% if flight %}
+                        <div class="modal-header p-3">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Lập lịch cho chuyến bay {{ flight.id }} -
+                                Tuyến: {{ flight.tuyenbay }} </h5>
+                        </div>
                         <div class="modal-body p-3">
                             <form class="" action="/admin/scheduleview?flight-id={{ flight.id }}" method="post">
                                 <div class="form-row">
@@ -55,7 +67,8 @@
                                     {% for c in ticket_classes %}
                                         <div class="form-group col-md-6">
                                             <label for="exampleInputEmail1">Số lượng ghế hạng {{ c.name }}</label>
-                                            <input name="flight-seat-num" type="number" class="form-control">
+                                            <input name="flight-seat-num" type="number" class="form-control"
+                                                   value="{{ seats[loop.index - 1].so_luong if seats[loop.index - 1] else 0 }}">
                                         </div>
                                     {% endfor %}
                                 </div>
@@ -65,20 +78,33 @@
                                     <input class="hide" type="radio" name="" id="" checked>
 
                                     {% for i in range(2) %}
-                                        <div class="mt-2 form-group term">
+                                        <div class="mt-2 form-group term"
+                                            {% if terms[i] %}
+                                                style="display: block"
+                                            {% endif %}
+                                        >
                                             <div class="d-flex">
-                                                <select class="form-control mr-2" name="term-id-no{{ i }}">
+                                                <select class="form-control mr-2" name="term-id" value="0">
+
                                                     {% for s in airports %}
                                                         {% if flight.tuyenbay.sanbaydi.id != s.id and  flight.tuyenbay.sanbayden.id != s.id %}
-                                                            <option value="{{ s.id }}">{{ s.name }}</option>
+                                                            <option value="{{ s.id }}"
+                                                                    {% if terms[i] and s.id == terms[i].sanbay_id %} selected {% endif %}
+                                                            >{{ s.name }}</option>
                                                         {% endif %}
                                                     {% endfor %}
+                                                    <option class="hide" value="0">Chọn sân bay trung gian</option>
+
                                                 </select>
                                                 <input type="number" class="form-control mr-2"
-                                                       name="term-time-no{{ i }}"
-                                                       placeholder="Thời gian dừng">
-                                                <input type="text" class="form-control" name="term-note-no{{ i }}"
-                                                       placeholder="Ghi chú">
+                                                       name="term-time"
+                                                       placeholder="Thời gian dừng"
+                                                       value="{{ terms[i].thoi_gian_dung|int if terms[i] }}"
+                                                >
+                                                <input type="text" class="form-control" name="term-note"
+                                                       placeholder="Ghi chú"
+                                                        value="{{ terms[i].ghi_chu if terms[i] }}"
+                                                >
                                                 <label for="{{ i }}" class="ml-3 bg-light border px-3 pb-1 pt-2">
                                                     <i class="fi fi-rr-plus"></i>
                                                 </label>
@@ -103,6 +129,13 @@
         </div>
     </div>
     <script>
+        function done(next) {
+            done = confirm('Bạn chắc chắn muốn lưu?')
+            if(done){
+                window.location.href+=next
+            }
+        }
+
         {% if flight %}
             window.onload = function () {
                 $(document).ready(function () {

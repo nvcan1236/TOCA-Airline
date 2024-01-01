@@ -253,7 +253,6 @@ footer {
 /*chart*/
 .chart {
     max-width: 600px ;
-    margin-inline: auto;
     margin-top: 60px;
 }
 
