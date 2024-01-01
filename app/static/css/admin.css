@@ -127,6 +127,22 @@
     background-color: var(--main-bg);
     color: var(--dark-text);
 }
+.class-wrapper.sold {
+    pointer-events: none !important;
+}
+.flight-item .class.sold {
+    background-color: #eee;
+    color: #333;
+    pointer-events: none;
+
+}
+
+.flight-item .class.sold::before {
+    content: 'Không đủ vé';
+    background-color: #333;
+    color: #eee;
+}
+
 
 .flight-item .class::before {
     position: absolute;

@@ -64,18 +64,19 @@
                                 <span class="plane">{{ f.maybay.name }}</span>
                             </div>
                             {% for c in ticket_classes %}
+
                                 <label
-                                        for="{{ f.id|string + c.name }}"
-                                        class="class-wrapper"
-                                        onclick="showDetail('{{ f.id }}', '{{ c.id }}')"
-                                >
-                                    <input type="radio" name="flight" id="{{ f.id|string + c.name }}"
-                                            {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
+                                            for="{{ f.id|string + c.name }}"
+                                            class="class-wrapper {% if f.ghes[loop.index - 1]['so_luong']<=0 %}sold{% endif %}"
+                                            onclick="showDetail('{{ f.id }}', '{{ c.id }}')"
                                     >
-                                    <div class="{{ c.name }} class ">
-                                        {{ "{:,.1f}".format( c.gia + f.gia) }} VND
-                                    </div>
-                                </label>
+                                        <input type="radio" name="flight" id="{{ f.id|string + c.name }}"
+                                                {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
+                                        >
+                                        <div class="{{ c.name }} class {% if f.ghes[loop.index - 1]['so_luong']<=0 %}sold{% endif %}">
+                                            {{ "{:,.1f}".format( c.gia + f.gia) }} VND
+                                        </div>
+                                    </label>
                             {% endfor %}
                         </li>
                     {% endfor %}

@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from flask_admin import Admin, BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from app.models import SanBay, TuyenBay, MayBay, ChuyenBay, Ve, HangVe, Ghe, DungChan, NguoiDung, HoaDon, UserRole, \
@@ -9,6 +8,7 @@ from flask_login import current_user, logout_user
 from flask import redirect, request
 
 admin = Admin(app=app, template_mode='bootstrap4', name='TOCA Admin')
+
 
 
 class EmployeeBaseView(BaseView):
@@ -59,7 +59,7 @@ class SaleView(EmployeeBaseView):
 
             bill = dao.create_bill(current_user.id, (flight.gia + ticket_class.gia) * 1.08)
             dao.create_ticket(flight_id=flight.id, ticket_class_id=ticket_class.id, customer_id=user.id,
-                                       bill_id=bill.id)
+                              bill_id=bill.id)
 
         return self.render('/admin/sale-ticket.html', flights=flights, flight=flight,
                            ticket_class=ticket_class, user=user, bill=bill)
@@ -93,6 +93,8 @@ class StatsView(AdminBaseView):
 class ScheduleView(EmployeeBaseView):
     @expose('/', methods=['post', 'get'])
     def index(self):
+        regulations = dao.get_regulations()
+
         scheduled_flights = dao.get_scheduled_fllights()
         flight_id = request.args.get('flight-id')
         flight = dao.get_flight_by_id(flight_id)
@@ -125,7 +127,8 @@ class ScheduleView(EmployeeBaseView):
             db.session.add(flight)
             db.session.commit()
             return redirect('/admin/scheduleview')
-        return self.render('/admin/schedule.html', scheduled_flights=scheduled_flights, flight=flight, seats=seats, terms=terms)
+        return self.render('/admin/schedule.html', scheduled_flights=scheduled_flights, flight=flight, seats=seats,
+                           terms=terms)
 
 
 class ChangeRegulationView(AdminBaseView):

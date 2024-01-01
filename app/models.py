@@ -75,6 +75,14 @@ class HangVe(BaseModel):
     ghes = relationship('Ghe', backref='hangve', lazy=True)
     ves = relationship('Ve', backref='hangve', lazy=True)
 
+    MAX_ROWS = 2
+
+    @classmethod
+    def can_create_row(cls, session):
+        # Kiểm tra số lượng hàng hiện tại
+        current_rows = session.query(cls).count()
+        return current_rows < cls.MAX_ROWS
+
     def __str__(self):
         return self.name
 
@@ -83,7 +91,6 @@ class Ghe(BaseModel):
     chuyenbay_id = Column(Integer, ForeignKey(ChuyenBay.id), nullable=False)
     hangve_id = Column(Integer, ForeignKey(HangVe.id), nullable=False)
     so_luong = Column(Integer, default=True)
-
 
 
 class DungChan(BaseModel):
@@ -132,6 +139,7 @@ class Ve(BaseModel):
     hanhkhach_id = Column(Integer, ForeignKey(HanhKhach.id), nullable=False)
     tong_tien_ve = Column(Float, nullable=False)
 
+    hanhkhach = relationship("HanhKhach", backref="ve")
 
 class QuyDinh(BaseModel):
     noi_dung = Column(String(100), nullable=False)

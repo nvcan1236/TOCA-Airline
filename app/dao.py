@@ -29,9 +29,12 @@ def load_regulation():
     db.session.commit()
 
 
-def get_regulation(id):
-    regulation = QuyDinh.query.get(id)
-    return regulation.gia_tri
+def get_regulations():
+    regulation = QuyDinh.query.all()
+    regulation_dict = {}
+    for r in regulation:
+        regulation_dict[r.noi_dung] = r.gia_tri
+    return regulation_dict
 
 
 def set_regulation(id, new_value):
@@ -72,10 +75,6 @@ def get_scheduled_fllights():
     return scheduled_fllights.all()
 
 
-def get_regulations():
-    return QuyDinh.query.all()
-
-
 def get_airport_by_id(id):
     return SanBay.query.get(id)
 
@@ -93,6 +92,13 @@ def get_ticket_class_by_id(id=None):
     return HangVe.query.get(id)
 
 
+def get_tickets_for_customer(user_id):
+    return db.session.query(Ve) \
+        .join(HoaDon, Ve.hoadon_id == HoaDon.id) \
+        .filter(HoaDon.nguoi_thanh_toan_id == user_id)\
+        .all()
+
+
 def get_bill_by_id(bill_id):
     return HoaDon.query.get(bill_id)
 
@@ -105,24 +111,26 @@ def get_flight_by_id(id=None):
     return ChuyenBay.query.get(id)
 
 
-def get_flights():
-    return ChuyenBay.query.all()
+def get_flights(ready=False):
+    return ChuyenBay.query.filter(ChuyenBay.san_sang.__eq__(ready)).all()
 
 
 def get_routes():
     return TuyenBay.query.all()
 
 
-def search_flight(from_code, to_code, date=None):
+def search_flight(from_code, to_code, date=None, ready=False):
     t = TuyenBay.query.filter(TuyenBay.sanBayKhoiHanh_id.__eq__(from_code),
                               TuyenBay.sanBayDen_id.__eq__(to_code))
     if t.first():
         if date:
-            ds_chuyenbay = ChuyenBay.query.filter(ChuyenBay.tuyenbay_id.__eq__(t.first().id),
+            ds_chuyenbay = ChuyenBay.query.filter(ChuyenBay.san_sang == True,
+                                                  ChuyenBay.tuyenbay_id.__eq__(t.first().id),
                                                   func.DATE(ChuyenBay.gio_bay) == date)
             return ds_chuyenbay.all()
         else:
-            ds_chuyenbay = ChuyenBay.query.filter(ChuyenBay.tuyenbay_id.__eq__(t.first().id))
+            ds_chuyenbay = ChuyenBay.query.filter(ChuyenBay.san_sang == True,
+                                                  ChuyenBay.tuyenbay_id.__eq__(t.first().id))
             return ds_chuyenbay.all()
     else:
         return []
@@ -159,7 +167,12 @@ def create_ticket(flight_id, ticket_class_id, customer_id, bill_id):
     flight = get_flight_by_id(flight_id)
     ticket_class = get_ticket_class_by_id(ticket_class_id)
     t.tong_tien_ve = flight.gia + ticket_class.gia
+
+    ghe = Ghe.query.filter(Ghe.chuyenbay_id.__eq__(flight_id),
+                           Ghe.hangve_id.__eq__(ticket_class_id)).first()
+    ghe.so_luong -= 1
     db.session.add(t)
+    db.session.add(ghe)
     db.session.commit()
     return t
 

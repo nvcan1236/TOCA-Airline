@@ -115,10 +115,12 @@
             sale_data.push({{ s[3] }})
         {% endfor %}
 
-        window.onload = function () {
+
+        window.addEventListener('load', function () {
+            console.log(ctxTurn, ctxSale)
             loadChart(ctxTurn, 'bar', labels, turn_data, 'Thống kê số lượt bay theo tuyến bay')
             loadChart(ctxSale, 'pie', labels, sale_data, 'Thống kê doanh thu theo tuyến bay')
-        }
+        })
 
         function showTable() {
             chart = document.getElementById('chart-form')

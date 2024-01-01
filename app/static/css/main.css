@@ -267,6 +267,22 @@ footer {
     color: var(--dark-text);
 }
 
+.class-wrapper.sold {
+    pointer-events: none !important;
+}
+
+.flight-item .class.sold {
+    background-color: #eee;
+    color: #333;
+
+}
+
+.flight-item .class.sold::before {
+    content: 'Không đủ vé';
+    background-color: #333;
+    color: #eee;
+}
+
 .flight-item .class::before {
     position: absolute;
     top: 0;
@@ -497,4 +513,82 @@ footer {
 
 .payment-result button {
     margin-top: 40px;
+}
+
+.history {
+    margin-top: -200px;
+    background-color: var(--white);
+    padding: 40px 80px;
+    width: 1200px;
+    margin-inline: auto;
+    position: relative;
+    z-index: 1;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+
+}
+
+.history h3 {
+    margin-top: 24px;
+}
+
+.ticket-list {
+    margin-top: 60px;
+}
+
+.ticket-item .header,
+.ticket-item .footer {
+    padding: 12px 24px;
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+.ticket-item.classic .header,
+.ticket-item.classic .footer {
+    background-color: var(--dark-bg);
+}
+
+.ticket-item.luxury .header,
+.ticket-item.luxury .footer {
+    background-color: var(--gold-text);
+}
+
+.ticket-item {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ticket-item.classic {
+    border: 2px solid var(--dark-bg);
+}
+.ticket-item.luxury {
+    border: 2px solid var(--gold-text);
+}
+.ticket-item .body {
+    display: flex;
+    justify-content: stretch;
+    padding: 30px 40px;
+}
+
+.ticket-item .body > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+}
+
+.ticket-item .customer-info {
+    width: 30%;
+    padding: 12px 24px;
+
+}
+
+.ticket-item .from,
+.ticket-item .to {
+    width: 35%;
+    padding: 0 30px;
+    border-left: 2px dashed #ccc;
 }

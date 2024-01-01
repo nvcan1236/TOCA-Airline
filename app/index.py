@@ -11,7 +11,7 @@ def common_response():
         'airports': dao.get_airports(),
         'routes': dao.get_routes(),
         'ticket_classes': dao.get_ticket_classes(),
-        'all_flights': dao.get_flights(),
+        'all_flights': dao.get_flights(ready=True),
         'regulations': dao.get_regulations(),
         'req_enum': RegulationEnum
     }
@@ -28,7 +28,9 @@ def index():
 
 @app.route('/history')
 def history():
-    return render_template('history.html')
+    page = request.args.get('page')
+    tickets = dao.get_tickets_for_customer(current_user.id)
+    return render_template('history.html', tickets=tickets)
 
 @app.route('/select-flight', methods=['get', 'post'])
 def select_flight():

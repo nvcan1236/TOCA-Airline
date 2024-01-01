@@ -17,13 +17,13 @@
                                 {% for c in ticket_classes %}
                                     <label
                                             for="{{ f.id|string + c.name }}"
-                                            class="class-wrapper"
+                                            class="class-wrapper {% if f.ghes[loop.index - 1]['so_luong']<session['order']['quantity']|int %}sold{% endif %}"
                                             onclick="showDetail('{{ f.id }}', '{{ c.id }}')"
                                     >
                                         <input type="radio" name="flight" id="{{ f.id|string + c.name }}"
                                                 {% if f.id==flight.id and c.id==ticket_class.id %} checked {% endif %}
                                         >
-                                        <div class="{{ c.name }} class ">
+                                        <div class="{{ c.name }} class {% if f.ghes[loop.index - 1]['so_luong']<session['order']['quantity']|int %}sold{% endif %}">
                                             {{ "{:,.1f}".format( c.gia + f.gia) }} VND
                                         </div>
                                     </label>
@@ -69,7 +69,8 @@
                                     {% if terms[0] %}
                                         {% for t in terms %}
                                             <li>{{ loop.index }} <span class="code"></span>-
-                                                {{ t.sanbay.name }} - {{ t.thoi_gian_dung|int }} phút</li>
+                                                {{ t.sanbay.name }} - {{ t.thoi_gian_dung|int }} phút
+                                            </li>
                                         {% endfor %}
                                     {% else %}
                                         Bay thẳng
