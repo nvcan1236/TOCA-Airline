@@ -121,12 +121,16 @@ class ScheduleView(EmployeeBaseView):
                     if flight_terms[i] != '0':
                         dao.set_terms(flight_id, flight_terms[i], time, note, done=request.args.get('done'))
                         print(flight_id, flight_terms[i], time, note)
+
+            return redirect('/admin/scheduleview')
+
         if request.args.get('done'):
             print('done')
             flight.san_sang = True
             db.session.add(flight)
             db.session.commit()
             return redirect('/admin/scheduleview')
+
         return self.render('/admin/schedule.html', scheduled_flights=scheduled_flights, flight=flight, seats=seats,
                            terms=terms)
 
