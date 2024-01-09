@@ -7,9 +7,9 @@ from enum import Enum as MyEnum
 
 
 class UserRole(MyEnum):
-    CUSTOMER = 1
-    EMPLOYEE = 2
-    ADMIN = 3
+    CUSTOMER = "Khách hàng"
+    EMPLOYEE = "Nhân viên bán vé"
+    ADMIN = "Quản trị viên"
 
 
 class GenderEnum(MyEnum):
@@ -109,7 +109,7 @@ class Nguoi(BaseModel):
 
 
 class NguoiDung(Nguoi, UserMixin):
-    username = Column(String(50), nullable=False, default='')
+    username = Column(String(50), nullable=False, default='', unique=True)
     password = Column(String(50), nullable=False, default='')
     avatar = Column(String(200),
                     default='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgee_ioFQrKoyiV3tnY77MLsPeiD15SGydSQ&usqp=CAU')

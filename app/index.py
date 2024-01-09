@@ -24,7 +24,8 @@ def load_user(user_id):
 
 @app.route('/')
 def index():
-    return render_template('home.html')
+    return render_template('home.html', home=True)
+
 
 @app.route('/history')
 def history():
@@ -32,97 +33,111 @@ def history():
     tickets = dao.get_tickets_for_customer(current_user.id)
     return render_template('history.html', tickets=tickets)
 
+
 @app.route('/select-flight', methods=['get', 'post'])
 def select_flight():
-    from_loc = request.args.get('from-location')
-    to_loc = request.args.get('to-location')
-    quantity = request.args.get('quantity')
-    flight_date = request.args.get('flight-date')
-    flight_date = flight_date if flight_date != '' else None
-    from_code = dao.get_airport_id(from_loc)
-    to_code = dao.get_airport_id(to_loc)
+    try:
+        from_loc = request.args.get('from-location')
+        to_loc = request.args.get('to-location')
+        if not from_loc:
+            raise Exception('Vui lòng chọn địa điểm khởi hành')
+        if not to_loc:
+            raise Exception('Vui lòng chọn địa điểm đến')
 
-    if not from_loc:
-        raise Exception('Vui lòng chọn địa điểm khởi hành')
-    if not to_loc:
-        raise Exception('Vui lòng chọn địa điểm đến')
+        quantity = request.args.get('quantity')
+        flight_date = request.args.get('flight-date')
+        flight_date = flight_date if flight_date != '' else None
 
-    order = session.get('order', {})
+        if flight_date and datetime.strptime(flight_date, "%Y-%m-%d") <= datetime.now():
+            raise Exception('Ngày đi phải sau ngày hiện tại!!!')
 
-    order['from-code'] = from_code
-    order['from'] = from_loc
-    order['to-code'] = to_code
-    order['to'] = to_loc
-    order['quantity'] = quantity
-    order['flight_date'] = flight_date
+        from_code = dao.get_airport_id(from_loc)
+        to_code = dao.get_airport_id(to_loc)
 
-    session['order'] = order
-    flights = dao.search_flight(from_code, to_code, flight_date)
-    flight = dao.get_flight_by_id(request.args.get('flight'))
-    ticket_class = dao.get_ticket_class_by_id(request.args.get('ticket-class'))
-    global terms
-    terms = None
-    if flight:
-        terms = dao.get_terms(flight.id)
-    if flight or ticket_class:
-        session['order']['flight'] = flight.id
-        session['order']['ticket-class'] = ticket_class.id
+        order = session.get('order', {})
 
-    return render_template('select-flight.html',
-                           flight_list=flights, flight=flight, ticket_class=ticket_class, terms=terms)
-    # try:
-    #     pass
-    # except Exception as e:
-    #     flash(str(e.args[0]), 'fail')
-    #     print(e)
-    #     return redirect(utils.get_prev_url())
+        order['from-code'] = from_code
+        order['from'] = from_loc
+        order['to-code'] = to_code
+        order['to'] = to_loc
+        order['quantity'] = quantity
+        order['flight_date'] = flight_date
+
+        session['order'] = order
+        flights = dao.search_flight(from_code, to_code, flight_date)
+        flight = dao.get_flight_by_id(request.args.get('flight'))
+        ticket_class = dao.get_ticket_class_by_id(request.args.get('ticket-class'))
+
+        if flights == []:
+            raise Exception('Không tồn tại chuyến bay nào phú hợp!!!')
+
+        global terms
+        terms = None
+        if flight:
+            terms = dao.get_terms(flight.id)
+        if flight and ticket_class:
+            if utils.check_date(datetime.now(), flight.gio_bay) <= dao.get_regulation_value(
+                    RegulationEnum.ORDER_TIME.value):
+                raise Exception('Ngoài thời gian cho phép đặt vé!!')
+            session['order']['flight'] = flight.id
+            session['order']['ticket-class'] = ticket_class.id
+
+        return render_template('select-flight.html',
+                               flight_list=flights, flight=flight, ticket_class=ticket_class, terms=terms)
+    except Exception as e:
+        flash(str(e.args[0]), 'error')
+        print(e)
+        return redirect(utils.get_prev_url())
 
 
 @app.route('/passenger-info', methods=['post', 'get'])
 def passenger_info():
-    global cusomer_left
+    try:
+        global cusomer_left
 
-    if session.get('order'):
-        cusomer_left = session['order']['quantity']
-    else:
-        raise Exception('Vui lòng dặt vé !!')
-
-    if request.method == 'POST':
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-        is_adult = request.form.get('adult')
-        gender = request.form.get('gender')
-        dob = request.form.get('dob')
-        nationality = request.form.get('nationality')
-        phone = request.form.get('phone')
-        email = request.form.get('email')
-        address = request.form.get('address')
-
-        c = {}
-        c['name'] = lname + fname
-        c['is_adult'] = is_adult.__eq__('true')
-        c['gender'] = gender
-        c['dob'] = dob
-        c['nationality'] = nationality
-        c['phone'] = phone
-        c['email'] = email
-        c['address'] = address
-
-        customers = session.get('customers', [])
-        cusomer_left = int(session['order']['quantity']) - len(session.get('customers', []))
-        if c in customers:
-            flash('Người dùng đã tồn tại', 'fail')
+        if session.get('order'):
+            cusomer_left = session['order']['quantity']
         else:
-            customers.append(c)
-            session['customers'] = customers
+            raise Exception('Vui lòng dặt vé !!')
 
-    return render_template('passenger-info.html', cusomer_left=cusomer_left)
-    # try:
-    #     pass
-    #
-    # except Exception as e:
-    #     flash(str(e.args[0]), 'fail')
-    #     return redirect(utils.get_prev_url())
+        if request.method == 'POST':
+            fname = request.form.get('fname')
+            lname = request.form.get('lname')
+            is_adult = request.form.get('adult')
+            gender = request.form.get('gender')
+            dob = request.form.get('dob')
+            nationality = request.form.get('nationality')
+            phone = request.form.get('phone')
+            email = request.form.get('email')
+            address = request.form.get('address')
+
+            c = {}
+            c['name'] = lname + " " + fname
+            c['is_adult'] = is_adult.__eq__('true')
+            c['gender'] = gender
+            c['dob'] = dob
+            c['nationality'] = nationality
+            c['phone'] = phone
+            c['email'] = email
+            c['address'] = address
+
+            customers = session.get('customers', [])
+
+            if c in customers:
+                flash('Người dùng đã tồn tại', 'error')
+            else:
+                customers.append(c)
+                session['customers'] = customers
+
+            cusomer_left = int(session['order']['quantity']) - len(session.get('customers', []))
+
+
+
+        return render_template('passenger-info.html', cusomer_left=cusomer_left)
+    except Exception as e:
+        flash(str(e.args[0]), 'error')
+        print(e)
+        return redirect(utils.get_prev_url())
 
 
 @app.route('/payment', methods=['post', 'get'])
@@ -149,10 +164,12 @@ def payment():
                 bill.tong_hoa_don += ticket.tong_tien_ve
 
             bill.tong_hoa_don *= 1.08
+            db.session.add(bill)
+            db.session.commit()
 
         return render_template('payment.html', bill=bill, flight=flight, ticket_class=ticket_class)
     except Exception as e:
-        flash(str(e.args[0]), 'fail')
+        flash(str(e.args[0]), 'error')
         return redirect(utils.get_prev_url())
 
 
@@ -176,7 +193,7 @@ def payment_result():
         return render_template('payment-result.html', status=status, next=next)
 
     except Exception as e:
-        flash(str(e.args[0]), 'fail')
+        flash(str(e.args[0]), 'error')
         return redirect(utils.get_prev_url())
 
 
@@ -194,9 +211,10 @@ def register():
             dao.create_user(username, email, password, name, avatar)
             return redirect(utils.get_prev_url())
         else:
-            flash('Mật khẩu không trùng khớp', 'fail')
+            flash('Mật khẩu không trùng khớp', 'error')
     except Exception as e:
-        flash(str(e.args[0]), 'fail')
+        flash(str(e.args[0]), 'error')
+        return redirect(utils.get_prev_url())
     else:
         return redirect(utils.get_prev_url())
 
@@ -211,10 +229,11 @@ def login():
         if user:
             login_user(user)
         else:
-            flash('Đăng nhập thất bại', 'fail')
+            flash('Đăng nhập thất bại', 'error')
 
     except Exception as e:
-        flash(str(e.args[0]), 'fail')
+        flash(str(e.args[0]), 'error')
+        return redirect(utils.get_prev_url())
     else:
         return redirect(utils.get_prev_url())
 

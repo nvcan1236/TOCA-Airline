@@ -37,6 +37,13 @@ def get_regulations():
     return regulation_dict
 
 
+def get_regulation_value(id):
+    reg = QuyDinh.query.filter(QuyDinh.id.__eq__(id)).first()
+
+    if reg:
+        return reg.gia_tri
+
+
 def set_regulation(id, new_value):
     regulation = QuyDinh.query.get(id)
     regulation.gia_tri = new_value
@@ -95,7 +102,8 @@ def get_ticket_class_by_id(id=None):
 def get_tickets_for_customer(user_id):
     return db.session.query(Ve) \
         .join(HoaDon, Ve.hoadon_id == HoaDon.id) \
-        .filter(HoaDon.nguoi_thanh_toan_id == user_id)\
+        .filter(HoaDon.nguoi_thanh_toan_id == user_id) \
+        .order_by(Ve.id.desc()) \
         .all()
 
 
@@ -192,7 +200,7 @@ def create_user(username, email, password, name, avatar=None):
     db.session.commit()
 
 
-def set_terms(flight_id, airport_id, time=0, note='', done=False):
+def set_terms(flight_id, airport_id, time=0, note=''):
     term = DungChan.query.filter(DungChan.chuyenbay_id.__eq__(flight_id), DungChan.sanbay_id.__eq__(airport_id)).first()
     if term:
         if time != '':
@@ -239,8 +247,12 @@ def set_seat(flight_id, class_id, qty):
 
 def check_user(username, password):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
-    u = NguoiDung.query.filter(NguoiDung.username.__eq__(username.strip()),
-                               NguoiDung.password.__eq__(password)).first()
+    u = NguoiDung.query.filter(NguoiDung.username.__eq__(username.strip())).first()
 
     if u:
-        return u
+        if u.password == password:
+            return u
+        else:
+            raise Exception("Sai mật khẩu!!!")
+    else:
+        raise Exception("Người dùng không tồn tại")

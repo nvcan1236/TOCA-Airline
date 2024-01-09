@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&display=swap");
 @import url('https://cdn-uicons.flaticon.com/2.0.0/uicons-solid-straight/css/uicons-solid-straight.css');
 @import url('https://cdn-uicons.flaticon.com/2.0.0/uicons-regular-straight/css/uicons-regular-straight.css');
+@import url('https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css');
 
 * {
     padding: 0;
@@ -23,6 +24,8 @@
 body {
     font-family: var(--main-font);
     color: var(--dark-text);
+
+
 }
 
 h1 {
@@ -83,11 +86,12 @@ button {
 .btn {
     cursor: pointer;
     padding: 14px 24px 12px;
-    border-radius: 2px;
+    /*border-radius: 2px;*/
     font-family: var(--main-font);
     text-decoration: none;
     min-height: 46px;
     font-size: 16px;
+    border-radius: 4px;
 }
 
 .btn.primary {
@@ -307,15 +311,18 @@ input[type='password']{
 /* flash message*/
 .message {
     position: fixed;
-    top: 10px;
+    top: 100px;
     right: -400px; /* Di chuyển ngoài màn hình bên phải */
     padding: 20px 30px;
-    width: 320px;
+    min-width: 320px;
     border: 1px solid currentColor;
     border-radius: 2px;
     color: #fff;
     opacity: 0;
     transition: opacity 0.3s ease, right 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
     z-index: 10;
 }
 
@@ -329,7 +336,7 @@ input[type='password']{
     color: #2ecc71;
 }
 
-.fail {
+.error {
     background-color: #f2dede;
     color: #e74c3c;
 }
@@ -356,3 +363,4 @@ input[type='password']{
         opacity: 0;
     }
 }
+
