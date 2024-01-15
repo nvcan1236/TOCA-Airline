@@ -55,6 +55,8 @@ def select_flight():
         to_code = dao.get_airport_id(to_loc)
 
         order = session.get('order', {})
+        if session.get('customers'):
+            del session['customers']
 
         order['from-code'] = from_code
         order['from'] = from_loc
@@ -69,7 +71,7 @@ def select_flight():
         ticket_class = dao.get_ticket_class_by_id(request.args.get('ticket-class'))
 
         if flights == []:
-            raise Exception('Không tồn tại chuyến bay nào phú hợp!!!')
+            raise Exception('Không tồn tại chuyến bay nào phù hợp!!!')
 
         global terms
         terms = None
@@ -130,8 +132,6 @@ def passenger_info():
                 session['customers'] = customers
 
             cusomer_left = int(session['order']['quantity']) - len(session.get('customers', []))
-
-
 
         return render_template('passenger-info.html', cusomer_left=cusomer_left)
     except Exception as e:
@@ -206,6 +206,9 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         confirm_password = request.form.get('confirm_pw')
+
+        if dao.check_exist_user(username):
+            raise Exception("Username đã tồn tại!!!")
 
         if password == confirm_password:
             dao.create_user(username, email, password, name, avatar)

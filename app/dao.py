@@ -1,8 +1,7 @@
-import enum
 import hashlib
 
 from sqlalchemy import func
-
+from flask import session
 from app import db, utils
 from app.models import SanBay, TuyenBay, ChuyenBay, HangVe, NguoiDung, HanhKhach, Ve, HoaDon, QuyDinh, Ghe, DungChan
 from cloudinary import uploader
@@ -184,6 +183,13 @@ def create_ticket(flight_id, ticket_class_id, customer_id, bill_id):
     db.session.commit()
     return t
 
+
+def check_exist_user(username):
+    user = NguoiDung.query.filter(NguoiDung.username.__eq__(username.strip())).first()
+    if user:
+        return True
+    else:
+        return False
 
 def create_user(username, email, password, name, avatar=None):
     u = NguoiDung()
