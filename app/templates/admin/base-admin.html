@@ -2,6 +2,8 @@
 
 {% block head_css %}
 {{ super() }}
+<link rel="icon" href="{{ url_for('static', filename='images/logo-web.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo-web.png') }}" type="image/x-icon">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 {% endblock %}
