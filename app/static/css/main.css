@@ -4,13 +4,13 @@ header {
     justify-content: space-between;
     align-items: center;
     /*background-color: var(--dark-bg);*/
-    background: rgb(255,220,115);
-background: linear-gradient(146deg, rgba(255,220,115,1) 0%, rgba(0,192,89,1) 34%, rgba(0,64,56,1) 100%);
+    background: rgb(255, 220, 115);
+    background: linear-gradient(146deg, rgba(255, 220, 115, 1) 0%, rgba(0, 192, 89, 1) 34%, rgba(0, 64, 56, 1) 100%);
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
+header .avatar {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
 }
 
@@ -18,7 +18,6 @@ background: linear-gradient(146deg, rgba(255,220,115,1) 0%, rgba(0,192,89,1) 34%
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: 700;
     color: var(--white);
 }
 
@@ -44,11 +43,19 @@ ul.navigator a {
 
 .actions {
     display: flex;
-    gap: 8px
+    gap: 8px;
 }
 
 .actions .logout {
+    font-weight: 400;
     color: var(--white);
+}
+
+.actions .username {
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 footer {
@@ -112,8 +119,7 @@ footer h4 {
 }
 
 .search-flight-home .dropdown-select,
-.search-flight-home input
-{
+.search-flight-home input {
     border-color: var(--main-bg) !important;
 }
 
@@ -616,9 +622,11 @@ footer h4 {
 .ticket-item.classic {
     border: 2px solid var(--dark-bg);
 }
+
 .ticket-item.luxury {
     border: 2px solid var(--gold-text);
 }
+
 .ticket-item .body {
     display: flex;
     justify-content: stretch;
@@ -643,4 +651,88 @@ footer h4 {
     width: 35%;
     padding: 0 30px;
     border-left: 2px dashed #ccc;
+}
+
+/* profile*/
+
+.profile {
+    padding: 50px 100px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.profile .avatar {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    padding: 30px 40px;
+}
+
+.profile .avatar img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.profile .infor {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 600px;
+    padding: 30px 40px;
+}
+
+.profile .label {
+    font-weight: 600;
+}
+
+.profile .value {
+    border: 1px solid #ccc;
+    text-align: right;
+}
+
+.profile .value[readonly] {
+    border: none;
+
+}
+
+.profile .infor > div {
+    padding: 4px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.custom-file-input {
+    color: transparent;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.custom-file-input::before {
+    content: 'Cập nhật avatar';
+    display: inline-block;
+    width: 100%;
+    color: var(--dark-bg);
+    padding: 8px 16px;
+    background-color: var(--light-bg);
+    border-radius: 3px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+}
+
+.custom-file-input:active {
+    outline: 0;
+}
+
+.custom-file-input:active::before {
+    color: var(--main-bg);
 }

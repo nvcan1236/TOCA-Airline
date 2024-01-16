@@ -199,9 +199,8 @@ def create_user(username, email, password, name, avatar=None):
     u.password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     if avatar:
         avatar_result = uploader.upload(avatar)
-
         u.avatar = avatar_result['secure_url']
-        print(avatar_result['secure_url'])
+
     db.session.add(u)
     db.session.commit()
 

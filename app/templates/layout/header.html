@@ -17,8 +17,10 @@
             <button class="btn secondary login " onclick="openLoginModal()">Đăng nhập/Đăng ký</button>
         {% else %}
             <a href="/logout" class="btn logout">Đăng xuất</a>
-            <span>{{ current_user.name }}</span>
-            <img src="{{ current_user.avatar }}" alt="avatar" class="avatar">
+            <a href="/profile" class="username">
+                {{ current_user.name }}
+                <img src="{{ current_user.avatar }}" alt="avatar" class="avatar">
+            </a>
         {% endif %}
 
     </div>

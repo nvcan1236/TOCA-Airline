@@ -1,3 +1,5 @@
+from cloudinary import uploader
+
 from app import app, db, dao, utils, login as app_login
 from flask import render_template, request, redirect, session, flash
 from flask_login import login_user, logout_user, current_user, login_required
@@ -219,7 +221,29 @@ def register():
         flash(str(e.args[0]), 'error')
         return redirect(utils.get_prev_url())
     else:
+        flash('Tạo tài khoản thành công', 'success')
         return redirect(utils.get_prev_url())
+
+
+@app.route('/profile', methods=['post', 'get'])
+@login_required
+def profile():
+    edit = request.args.get('edit') == 'true'
+    if request.method == 'POST':
+        u = dao.get_user_by_id(current_user.id)
+        u.phone = request.form.get('phone')
+        u.email = request.form.get('email')
+        u.ngay_sinh = request.form.get('dob')
+        avatar = request.files.get('avatar')
+
+        if avatar:
+            avatar_result = uploader.upload(avatar)
+            u.avatar = avatar_result['secure_url']
+
+        db.session.add(u)
+        db.session.commit()
+    flash('Cập nhật thông tin thành công', 'success')
+    return render_template('profile.html', edit=edit)
 
 
 @app.route('/admin/login', methods=['post'])
@@ -244,7 +268,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(utils.get_prev_url())
+    return redirect('/')
 
 
 if __name__ == '__main__':

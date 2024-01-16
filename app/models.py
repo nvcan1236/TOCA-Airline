@@ -13,9 +13,9 @@ class UserRole(MyEnum):
 
 
 class GenderEnum(MyEnum):
-    NAM = 1
-    NU = 2
-    OTHER = 3
+    NAM = 'Nam'
+    NU = 'Nữ'
+    OTHER = 'Khác'
 
 
 class BaseModel(db.Model):
