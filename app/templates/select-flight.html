@@ -54,7 +54,13 @@
                                     <span>
                                 <i class="fi fi-ss-plane"></i>
                             </span>
-                                    <span>{{ terms|length }} trạm</span>
+                                    <span>
+                                        {% if terms[0] %}
+                                            {{ terms|length }} trạm
+                                        {% else %}
+                                            Bay thẳng
+                                        {% endif %}
+                                    </span>
                                 </div>
 
                                 <div class="to">

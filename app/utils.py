@@ -19,7 +19,7 @@ def check_date(from_date, to_date):
         from_date = datetime.strptime(from_date, time_format)
     if isinstance(to_date, str):
         to_date = datetime.strptime(to_date, time_format)
-    return (to_date - from_date).seconds / 3600
+    return (to_date - from_date).total_seconds() / 3600
 
 
 def check_same_date(from_date, to_date):

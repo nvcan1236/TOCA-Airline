@@ -41,7 +41,7 @@
         </div>
         <div>
             <span class="label">Ngày sinh: </span>
-            <input type="date" name="dob" class="value" value="{{ current_user.ngay_sinh.strftime("%Y-%m-%d") }}" {{ 'readonly' if not edit }} >
+            <input type="date" name="dob" class="value" value="{{ current_user.ngay_sinh.strftime("%Y-%m-%d") if current_user.ngay_sinh }}" {{ 'readonly' if not edit }} >
         </div>
         <div>
             <span></span>

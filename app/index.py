@@ -80,8 +80,11 @@ def select_flight():
         if flight:
             terms = dao.get_terms(flight.id)
         if flight and ticket_class:
+            print(utils.check_date(datetime.now(), flight.gio_bay), dao.get_regulation_value(
+                RegulationEnum.ORDER_TIME.value))
             if utils.check_date(datetime.now(), flight.gio_bay) <= dao.get_regulation_value(
                     RegulationEnum.ORDER_TIME.value):
+
                 raise Exception('Ngoài thời gian cho phép đặt vé!!')
             session['order']['flight'] = flight.id
             session['order']['ticket-class'] = ticket_class.id
